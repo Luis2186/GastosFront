@@ -1,0 +1,71 @@
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --color-light_main: #8914d7;
+    --color-light_hover: #bc5bff;
+    --color-light_title: #61148f;
+    --color-light_text_menu: #480073;
+    --color-light_text: #252526;
+    --color-light_text_light: #888890;
+    --color-light_focus: #61148f;
+    --color-light_active: #61148f;
+    --color-light_icons: #a225f8;
+    --color-dark_main: #a225f8;
+    --color-dark_title: #b448ff;
+    --color-dark_hover: #c97bff;
+    --color-dark_text: #f5e6ff;
+    --color-dark_text_light: #ecd2ff;
+    --color-dark_text_menu: #b952ff;
+    --color-dark_focus: ;
+    --color-dark_active: ;
+    --color-dark_icons: #ddaeff;
+    --color-primary-50: #fbf4ff;
+    --color-primary-100: #f5e6ff;
+    --color-primary-200: #ecd2ff;
+    --color-primary-300: #ddaeff;
+    --color-primary-400: #c97bff;
+    --color-primary-500: #b448ff;
+    --color-primary-600: #a225f8;
+    --color-primary-700: #8914d7;
+    --color-primary-950: #43006b;
+    --color-primary-800: #7616b3;
+    --color-primary-900: #61148f;
+    /* --bg-light-gradient: linear-gradient(to top, #e5b2ca, #7028e4);
+    --bg-d-gradient-asideMenu: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.3));
+    --bg-d-main-background: linear-gradient(to top, rgba(112, 40, 228), rgba(0, 0, 0));
+    --bg-l-gradient-asideMenu: linear-gradient(to top left, rgba(188, 0, 255, 1), rgba(188, 0, 255, 0.5));
+    --bg-l-gradient-asideMenu: radial-gradient(circle, rgba(233, 179, 252, 1) 0%, rgba(191, 143, 255, 1) 100%);
+    --bg-l-main-background: linear-gradient(to top, rgba(255, 255, 255), rgba(255, 255, 255)); */
+    --bg-light-gradient: radial-gradient(circle, rgba(233, 179, 252, 1) 0%, rgba(191, 143, 255, 1) 100%);
+    --bg-dark-gradient: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.3));
+}
+
+:root {
+    /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87); */
+    /* background-color: #242424; */
+
+    /* font-synthesis: none;
+    text-rendering: optimizeLegibility; */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    width: 100%;
+    height: 100%;
+    color: #252526;
+    font-size: 1rem;
+}
