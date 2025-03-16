@@ -2,26 +2,20 @@ import { isAxiosError } from "axios";
 import axiosInstance from "../../api/axiosConfig";
 import { errorDefault } from "../../utils/utils";
 import { Categorie } from "../../domain/types/Categorie";
-import { categorieResult } from "./types/CategoriesResult";
+import { CategorieResult, mapCategorieResultToCategorie, mapCategorieToCategorieResult } from "./types/CategoriesResult";
+import { ICategoriesRepository } from "./interfaces/ICategoriesRepository";
 
 
 const endpoint = "/categoria"
 
 
-export const categoriesRepository = {
-
-    async getAllCategories(): Promise<Categorie[] | null> {
+export const categoriesRepository: ICategoriesRepository = {
+    async getAll(): Promise<Categorie[] | null> {
         try {
-            const response = await axiosInstance.get(`${endpoint}/todas`)
+            const response = await axiosInstance.get(`${endpoint}/todas`);
+            const result: CategorieResult[] = response.data;
 
-            const categories: Categorie[] = response.data.map((categorie: categorieResult) => {
-                return {
-                    id: categorie.id,
-                    name: categorie.nombre,
-                    description: categorie.descripcion,
-                    subCategories: categorie.subCategorias
-                }
-            });
+            const categories: Categorie[] = result.map(mapCategorieResultToCategorie);
 
             return categories;
         } catch (error) {
@@ -32,9 +26,9 @@ export const categoriesRepository = {
         }
     },
 
-    async getCategorieById(id: number): Promise<Categorie | null> {
+    async getById(id: number): Promise<Categorie | null> {
         try {
-            const response = await axiosInstance.get(`${endpoint}/obtener/${id}`)
+            const response = await axiosInstance.get(`${endpoint}/obtener/${id}`);
             const result = response.data;
             // Verifica si la respuesta contiene un objeto 'categorie'
             const categorie: Categorie = {
@@ -52,16 +46,33 @@ export const categoriesRepository = {
             }
             throw errorDefault();
         }
+    },
+    update: async function (id: number | string, entity: Categorie): Promise<Categorie | null> {
+        try {
+
+            const catMapUpdate = mapCategorieToCategorieResult(entity);
+
+            const response = await axiosInstance.put(`/usuario/actualizar/${id}`, catMapUpdate);
+            const result = response.data;
+            const categorie = mapCategorieResultToCategorie(result);
+
+            return categorie;
+        } catch (error) {
+            if (isAxiosError(error)) {
+                throw errorDefault(error.response ? error.response.data : error.message);
+            }
+            throw errorDefault();
+        }
+        throw new Error("Function not implemented.");
+    },
+    create: async function (entity: Categorie): Promise<Categorie | null> {
+        throw new Error("Function not implemented.");
+    },
+    delete: async function (id: number | string): Promise<boolean> {
+
+        const response = await axiosInstance.delete(`/subcategoria/eliminar/${id}`);
+        return response.data;
     }
-
-
-
-
-
-
-
-
-
 }
 
 

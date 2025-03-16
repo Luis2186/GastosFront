@@ -10,7 +10,7 @@ export const useCategories = () => {
 
         onLoading()
 
-        const categories = await categoriesRepository.getAllCategories();
+        const categories = await categoriesRepository.getAll();
 
         if (categories != null && categories.length > 0) {
 
@@ -23,7 +23,7 @@ export const useCategories = () => {
 
     const handleGetCategorieById = async (id: number) => {
         onLoading()
-        const categorie = await categoriesRepository.getCategorieById(id);
+        const categorie = await categoriesRepository.getById(id);
 
         if (categorie != null) {
             setCurrentCategorie(categorie);

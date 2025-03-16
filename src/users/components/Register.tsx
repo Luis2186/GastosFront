@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import useAuthStore from '../store/useAuthStore';
 import { useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schemaRegister } from '../validation/userValidationSchema';

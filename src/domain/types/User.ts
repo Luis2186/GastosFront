@@ -40,12 +40,5 @@ export interface Group {
     active: boolean;
 }
 
-interface UserStoreState {
-    users: User[]; // Array de objetos tipo User
-    loading: boolean;
-    errorMessage?: string;
 
-    // Métodos para manipular el estado
-    onLoading: () => void;
-}
 

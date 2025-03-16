@@ -11,11 +11,8 @@ export const RolItem = ({ rol, userId }: RolItemProps,) => {
 
     const { handleRemoveRolUser } = useUser();
 
-
     const handleRemoveRol = async () => {
-        console.log(userId, rol)
-        const rolEliminado = await handleRemoveRolUser(userId, "", rol)
-        // console.log('Valores actuales del formulario:', valores);
+        await handleRemoveRolUser(userId, "", rol)
     }
 
     return (

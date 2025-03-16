@@ -3,18 +3,17 @@ import { errorDefault } from "../../utils/utils";
 import axiosInstance from "../../api/axiosConfig";
 import { User, UserRegister } from "../../domain/types/User";
 import { LoginResult, mapUserRegisterToUserRegisterResult, mapUserResultToUser, mapUserToUserResult, UserResult } from "./types/userResult";
+import { IUserRepository } from "./interfaces/IUserRepository";
 
-export const userRepository = {
-
+export const userRepository: IUserRepository = {
     async register(user: UserRegister): Promise<User | null> {
         try {
+            const userMap = mapUserRegisterToUserRegisterResult(user);
 
-            const userMap = mapUserRegisterToUserRegisterResult(user)
+            if (userMap == null || userMap == undefined) return null;
 
-            if (userMap == null || userMap == undefined) return null
-
-            const response = await axiosInstance.post(`/usuario/registrar`, userMap)
-            console.log(response)
+            const response = await axiosInstance.post(`/usuario/registrar`, userMap);
+            console.log(response);
             return response.data;
         } catch (error) {
             if (isAxiosError(error)) {
@@ -53,7 +52,7 @@ export const userRepository = {
 
     async refreshToken(refreshToken: string) {
         try {
-            if (!refreshToken) return
+            if (!refreshToken) return;
             const response = await axiosInstance.post('usuario/refresh-token', refreshToken);
             return response;
         } catch (error) {
@@ -65,9 +64,9 @@ export const userRepository = {
     },
 
     // Leer todos los usuarios
-    async getUsers(): Promise<User[]> {
+    async getAll(): Promise<User[]> {
         try {
-            const response = await axiosInstance.get(`/usuario/paginados`)
+            const response = await axiosInstance.get(`/usuario/paginados`);
 
             const result: UserResult[] = response.data;
             const usersMaps = result.map(mapUserResultToUser);
@@ -81,12 +80,12 @@ export const userRepository = {
         }
     },
 
-    async getUserById(id: string): Promise<User | null> {
+    async getById(id: string): Promise<User | null> {
         try {
 
-            const response = await axiosInstance.get(`usuario/obtener/${id}`)
+            const response = await axiosInstance.get(`usuario/obtener/${id}`);
             const userResult: UserResult = response.data;
-            const userMap = mapUserResultToUser(userResult)
+            const userMap = mapUserResultToUser(userResult);
 
             return userMap;
         } catch (error) {
@@ -97,14 +96,14 @@ export const userRepository = {
         }
     },
 
-    async updateUser(idUser: string, updatedUser: User) {
+    async update(idUser: string, updatedUser: User) {
         try {
 
-            const userMapUpdate = mapUserToUserResult(updatedUser)
+            const userMapUpdate = mapUserToUserResult(updatedUser);
 
-            const response = await axiosInstance.put(`/usuario/actualizar/${idUser}`, userMapUpdate)
+            const response = await axiosInstance.put(`/usuario/actualizar/${idUser}`, userMapUpdate);
             const result = response.data;
-            const user = mapUserResultToUser(result)
+            const user = mapUserResultToUser(result);
 
             return user;
         } catch (error) {
@@ -115,9 +114,9 @@ export const userRepository = {
         }
     },
 
-    async deleteUser(idUser: string) {
+    async delete(idUser: string) {
         try {
-            const response = await axiosInstance.delete(`/usuario/eliminar/${idUser}`)
+            const response = await axiosInstance.delete(`/usuario/eliminar/${idUser}`);
             return response.data;
         } catch (error) {
             throw error;
@@ -126,7 +125,7 @@ export const userRepository = {
 
     async getRolesbyUser(idUser: string) {
         try {
-            const response = await axiosInstance.get(`/usuario/obtenerRoles/${idUser}`)
+            const response = await axiosInstance.get(`/usuario/obtenerRoles/${idUser}`);
 
             return response.data;
         } catch (error) {
@@ -139,7 +138,7 @@ export const userRepository = {
 
     async getRoles() {
         try {
-            const response = await axiosInstance.get(`/usuario/obtenerRoles`)
+            const response = await axiosInstance.get(`/usuario/obtenerRoles`);
 
             return response.data;
         } catch (error) {
@@ -156,10 +155,10 @@ export const userRepository = {
                 idUsuario,
                 idRol,
                 nombreRol
-            }
+            };
 
-            console.log(agregarRolData)
-            const response = await axiosInstance.post(`/usuario/agregarRol`, agregarRolData)
+            console.log(agregarRolData);
+            const response = await axiosInstance.post(`/usuario/agregarRol`, agregarRolData);
             return response.data;
 
         } catch (error) {
@@ -173,10 +172,10 @@ export const userRepository = {
 
     async RemoveRol(idUsuario: string, idRol: string, nombreRol: string) {
         try {
-            if (!idUsuario || (!idRol && !nombreRol)) return
+            if (!idUsuario || (!idRol && !nombreRol)) return;
 
-            const response = await axiosInstance.delete(`/usuario/eliminarRol/${idUsuario}/${"idRol"}/${nombreRol}`)
-            console.log(response)
+            const response = await axiosInstance.delete(`/usuario/eliminarRol/${idUsuario}/${"idRol"}/${nombreRol}`);
+            console.log(response);
 
             return response.data;
 
@@ -186,7 +185,9 @@ export const userRepository = {
             }
             throw errorDefault();
         }
+    },
+    create: function (entity: User): Promise<User | null> {
+        throw new Error("Function not implemented.");
     }
-
 }
 

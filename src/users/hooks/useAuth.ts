@@ -10,7 +10,6 @@ export const useAuth = () => {
     const { onLogin, onChecking, onLogout, user, isAuthenticated, errorMessage, clearErrorMessage } = useAuthStore();
     const { onLoading, onRegister } = useUserStore();
 
-
     // Función para manejar el login
     const handleLogin = async (email: string, password: string) => {
         try {
@@ -21,7 +20,7 @@ export const useAuth = () => {
             // Llama a la API para hacer login
             const response: LoginResult = await userRepository.login(email, password);
 
-            const usuario: User | null = await userRepository.getUserById(response.id);
+            const usuario: User | null = await userRepository.getById(response.id);
 
             onLogin(usuario); // Guarda el usuario y el token en el estado global
 
@@ -37,11 +36,9 @@ export const useAuth = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await userRepository.logout();
-
+            await userRepository.logout();
             onLogout();
-
-            window.location.href = '/LoginPage'; // Redirigir al home después de login
+            window.location.href = '/LoginPage';
 
         } catch (err) {
             if (isErrorMessage(err)) {

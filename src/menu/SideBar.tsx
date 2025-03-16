@@ -3,14 +3,15 @@ import useAuthStore from "../users/store/useAuthStore";
 import { SideBarItem } from "./SideBarItem"
 import { SideBarMenu } from "./SideBarMenu"
 import { ThemeToggle } from "./ThemeToggle";
+import { UserCard } from "../users/components/UserCard";
 
 export const SideBar = () => {
 
     const { user } = useAuthStore();
-    const [roles, setRoles] = useState(user?.roles || []);
+    const [roles] = useState(user?.roles || []);
 
     return (
-        <>
+        <div className="flex flex-col h-screen">
             <button
                 data-drawer-target="default-sidebar"
                 data-drawer-toggle="default-sidebar"
@@ -93,9 +94,12 @@ export const SideBar = () => {
                             <i className="fa-solid fa-arrow-right-to-bracket fa-lg fa-rotate-180 self-center w-8 text-center"></i>
                         </SideBarItem>
                     </ul>
-                </div>
-            </aside>
 
-        </>
+                </div>
+
+
+            </aside>
+            <UserCard />
+        </div>
     )
 }

@@ -47,7 +47,7 @@ export const useUser = () => {
     const handleGetUserById = async (userId: string) => {
         try {
             onLoading();
-            const user = await userRepository.getUserById(userId);
+            return await userRepository.getUserById(userId);
 
         } catch (error) {
             if (isErrorMessage(error)) {
@@ -61,7 +61,7 @@ export const useUser = () => {
     const handleRemoveUser = async (userId: string) => {
         try {
             onLoading();
-            const user = await userRepository.deleteUser(userId);
+            await userRepository.deleteUser(userId);
             onRemoveUser(userId)
         } catch (error) {
             if (isErrorMessage(error)) {
@@ -76,9 +76,10 @@ export const useUser = () => {
         try {
             if (!idUsuario && (!idRol && !nombreRol)) return
             onLoading();
-            const response = await userRepository.addRol(idUsuario, "", nombreRol)
 
+            await userRepository.addRol(idUsuario, "", nombreRol)
             onAddRolUser(idUsuario, nombreRol)
+
         } catch (error) {
             if (isErrorMessage(error)) {
                 onError(error);
@@ -94,8 +95,7 @@ export const useUser = () => {
 
             onLoading();
 
-            const response = await userRepository.RemoveRol(idUsuario, "", nombreRol)
-
+            await userRepository.RemoveRol(idUsuario, "", nombreRol)
             onRemoveRolUser(idUsuario, nombreRol)
 
         } catch (error) {

@@ -102,7 +102,7 @@ export const Login = () => {
 
                     <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                         Aun no tienes cuenta?{' '}
-                        <a href="#" className="text-blue-700 hover:underline dark:text-blue-500">
+                        <a href="/Register" className="text-blue-700 hover:underline dark:text-blue-500">
                             ¡Create una!
                         </a>
                     </div>

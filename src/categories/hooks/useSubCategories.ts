@@ -6,12 +6,12 @@ export const useSubCategories = () => {
     const { onLoading, onGetAll, onCreate, onRemove, onUpdate, onError, setCurrentSubCategorie, clearCurrentSubCategorie } = useSubCategorieStore()
 
     const handleGetAllSubCategories = async (groupId: number, categorieId: number) => {
-        console.log(groupId)
+
         if (!groupId || !categorieId) return
 
         onLoading()
 
-        const subCategories = await subCategoriesRepository.getAllSubCategories(groupId, categorieId);
+        const subCategories = await subCategoriesRepository.getAllById(groupId, categorieId);
 
         if (subCategories != null) {
             onGetAll(subCategories);

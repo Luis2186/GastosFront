@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faPlusCircle, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Modal } from './Modal';  // Asegúrate de importar el Modal genérico
 import { RolItem } from './RolItem';
 import useUserStore from '../store/useUserStore';
@@ -10,7 +9,6 @@ import { useUser } from '../hooks/useUser.ts';
 import { InputForm } from '../../components/InputForm.tsx';
 import { userRepository } from '../api/userApi.ts';
 import { User } from '../../domain/types/User.ts';
-
 
 interface Rol {
     rol: string;
@@ -26,7 +24,7 @@ export const RolesModal: React.FC<RolesModalProps> = ({ user, isOpen, onClose, }
     const { register, handleSubmit, getValues, formState: { errors } } = useForm<Rol>();
     const [roles, setRoles] = useState([]);
     const [rolesByUser, setRolesByUser] = useState([]);
-    const { handleAddRolUser, handleRemoveRolUser } = useUser();
+    const { handleAddRolUser } = useUser();
     const { users } = useUserStore()
 
     useEffect(() => {
@@ -59,20 +57,13 @@ export const RolesModal: React.FC<RolesModalProps> = ({ user, isOpen, onClose, }
         const rol = getValues(); // Obtener todos los valores del formulario
         await handleAddRolUser(user.id, "", rol.rol)
     }
-    // Función para obtener los usuarios
-
-    const onSubmit = async (rol: Rol) => {
-        // console.log(rol)
-        // //await onUpdate(data.id, data);
-        // //onClose();
-    };
 
     const rolesOptions = roles.map(rol => {
         return { value: rol, label: rol }
     })
 
     return (
-        <Modal title="Actualizar roles" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit(onSubmit)}>
+        <Modal title="Actualizar roles" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit(() => { })}>
 
             <div className='flex w-full justify-center items-center'>
 

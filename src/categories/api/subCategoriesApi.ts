@@ -1,27 +1,19 @@
 import { isAxiosError } from "axios";
 import axiosInstance from "../../api/axiosConfig";
 import { errorDefault } from "../../utils/utils";
-import { subCategorieResult } from "./types/SubCategoriesResult";
+import { mapSubCategorieResultToSubCategorie, mapSubCategorieToSubCategorieResult, SubCategorieResult } from "./types/SubCategoriesResult";
 import { SubCategorie } from "../../domain/types/SubCategorie";
+import { ISubCategoriesRepository } from "./interfaces/ISubCategoriesRepository";
 
 const endpoint = "/subcategoria"
 
-export const subCategoriesRepository = {
-
-    async getAllSubCategories(groupId: number, categorieId: number): Promise<SubCategorie[] | null> {
+export const subCategoriesRepository: ISubCategoriesRepository = {
+    async getAllById(groupId: number, categorieId: number): Promise<SubCategorie[] | null> {
         try {
-            const response = await axiosInstance.get(`${endpoint}/todas/${groupId}/${categorieId}`)
-            const result = response.data;
+            const response = await axiosInstance.get(`${endpoint}/todas/${groupId}/${categorieId}`);
+            const result: SubCategorieResult[] = response.data;
 
-            const subCategories: SubCategorie[] = result.map((subCategorie: subCategorieResult) => {
-                return {
-                    id: subCategorie.id,
-                    name: subCategorie.nombre,
-                    description: subCategorie.descripcion,
-                    categorieId: subCategorie.categoriaId,
-                    groupId: subCategorie.groupId
-                }
-            });
+            const subCategories = result.map(mapSubCategorieResultToSubCategorie);
 
             return subCategories;
         } catch (error) {
@@ -32,9 +24,9 @@ export const subCategoriesRepository = {
         }
     },
 
-    async getSubCategorieById(id: number): Promise<SubCategorie | null> {
+    async getById(id: number): Promise<SubCategorie | null> {
         try {
-            const response = await axiosInstance.get(`${endpoint}/obtener/${id}`)
+            const response = await axiosInstance.get(`${endpoint}/obtener/${id}`);
             const result = response.data;
 
             const subCategories: SubCategorie = {
@@ -53,14 +45,37 @@ export const subCategoriesRepository = {
             throw errorDefault();
         }
     },
+    getAll: async function (): Promise<SubCategorie[] | null> {
+        throw new Error("Function not implemented.");
+    },
+    update: async function (id: number | string, entity: SubCategorie): Promise<SubCategorie | null> {
+        const subCatMapUpdate = mapSubCategorieToSubCategorieResult(entity);
 
+        const response = await axiosInstance.put(`/subcategoria/actualizar/${id}`, subCatMapUpdate);
+        const result: SubCategorieResult = response.data;
+
+        const subCategorie = mapSubCategorieResultToSubCategorie(result);
+        return subCategorie;
+    },
+    create: async function (entity: SubCategorie): Promise<SubCategorie | null> {
+        const subCatMapUpdate = mapSubCategorieToSubCategorieResult(entity);
+
+        const response = await axiosInstance.put(`/subcategoria/crear`, subCatMapUpdate);
+        const result: SubCategorieResult = response.data;
+        const subCategorie = mapSubCategorieResultToSubCategorie(result);
+
+        return subCategorie;
+    },
+    delete: async function (id: number | string): Promise<boolean> {
+        throw new Error("Function not implemented.");
+    }
 }
 
 
 // -------------------------------------------------------------------------------
 
 
-export const createSubCategorie = async (createdSubCategorie: subCategorieResult) => {
+export const createSubCategorie = async (createdSubCategorie: SubCategorieResult) => {
     try {
         const response = await axiosInstance.post(`${endpoint}/crear`, createdSubCategorie)
 
@@ -73,7 +88,7 @@ export const createSubCategorie = async (createdSubCategorie: subCategorieResult
     }
 };
 
-export const updateSubCategorie = async (id: number, updatedSubCategorie: subCategorieResult) => {
+export const updateSubCategorie = async (id: number, updatedSubCategorie: SubCategorieResult) => {
     try {
         const response = await axiosInstance.put(`${endpoint}/actualizar/${id}`, updatedSubCategorie)
 
