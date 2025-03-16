@@ -1,17 +1,10 @@
 import { useForm } from "react-hook-form";
 
 import { useState } from "react";
-import useAuthStore from "../../users/store/useAuthStore";
 import { InputForm } from "../../components/InputForm";
+import { createGroup } from "../api/types/GroupResult";
 
-interface createGroup {
-    nombre: string;
-    descripcion: string;
-    usuarioAdministradorId: string;
-    codigoAcceso: string;
-    activo: boolean;
-    codigo?: boolean;
-}
+
 
 export const GroupCreate = () => {
     // Usa useForm con tipos explícitos

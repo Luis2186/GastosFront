@@ -1,4 +1,5 @@
 import { GroupResult } from "../../users/api/types/userResult";
+import { Group } from "./Group";
 
 export type User = {
     id: string,
@@ -30,15 +31,7 @@ export type UserRegister = {
     token?: string
 }
 
-export interface Group {
-    id: number;
-    name: string;
-    description: string;
-    creationDate: Date;
-    adminUserId: string;
-    members?: User[];
-    active: boolean;
-}
+
 
 
 

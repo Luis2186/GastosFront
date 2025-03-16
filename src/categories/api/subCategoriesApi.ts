@@ -46,26 +46,47 @@ export const subCategoriesRepository: ISubCategoriesRepository = {
         }
     },
     update: async function (id: number | string, entity: SubCategorie): Promise<SubCategorie | null> {
-        const subCatResult = mapSubCategorieToSubCategorieResult(entity);
+        try {
+            const subCatResult = mapSubCategorieToSubCategorieResult(entity);
 
-        const response = await axiosInstance.put(`/${endpoint}/actualizar/${id}`, subCatResult);
-        const result: SubCategorieResult = response.data;
+            const response = await axiosInstance.put(`/${endpoint}/actualizar/${id}`, subCatResult);
+            const result: SubCategorieResult = response.data;
 
-        const subCategorie = mapSubCategorieResultToSubCategorie(result);
-        return subCategorie;
+            const subCategorie = mapSubCategorieResultToSubCategorie(result);
+            return subCategorie;
+        } catch (error) {
+            if (isAxiosError(error)) {
+                throw errorDefault(error.response ? error.response.data : error.message);
+            }
+            throw errorDefault();
+        }
     },
     create: async function (entity: SubCategorie): Promise<SubCategorie | null> {
-        const subCatResult = mapSubCategorieToSubCategorieResult(entity);
+        try {
+            const subCatResult = mapSubCategorieToSubCategorieResult(entity);
 
-        const response = await axiosInstance.put(`/${endpoint}/crear`, subCatResult);
-        const result: SubCategorieResult = response.data;
-        const subCategorie = mapSubCategorieResultToSubCategorie(result);
+            const response = await axiosInstance.put(`/${endpoint}/crear`, subCatResult);
+            const result: SubCategorieResult = response.data;
+            const subCategorie = mapSubCategorieResultToSubCategorie(result);
 
-        return subCategorie;
+            return subCategorie;
+        } catch (error) {
+            if (isAxiosError(error)) {
+                throw errorDefault(error.response ? error.response.data : error.message);
+            }
+            throw errorDefault();
+        }
     },
     delete: async function (id: number | string): Promise<boolean> {
-        const response = await axiosInstance.delete(`/${endpoint}/eliminar/${id}`);
-        return response.data;
+        try {
+            const response = await axiosInstance.delete(`/${endpoint}/eliminar/${id}`);
+            return response.data;
+        } catch (error) {
+            if (isAxiosError(error)) {
+                throw errorDefault(error.response ? error.response.data : error.message);
+            }
+            throw errorDefault();
+        }
     }
 }
 
