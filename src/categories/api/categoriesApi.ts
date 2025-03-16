@@ -69,9 +69,7 @@ export const categoriesRepository: ICategoriesRepository = {
         throw new Error("Function not implemented.");
     },
     delete: async function (id: number | string): Promise<boolean> {
-
-        const response = await axiosInstance.delete(`/subcategoria/eliminar/${id}`);
-        return response.data;
+        throw new Error("Function not implemented.");
     }
 }
 

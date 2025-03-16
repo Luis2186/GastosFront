@@ -11,7 +11,7 @@ export const useSubCategories = () => {
 
         onLoading()
 
-        const subCategories = await subCategoriesRepository.getAllById(groupId, categorieId);
+        const subCategories = await subCategoriesRepository.getAll(groupId, categorieId);
 
         if (subCategories != null) {
             onGetAll(subCategories);
