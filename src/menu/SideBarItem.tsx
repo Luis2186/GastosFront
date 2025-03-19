@@ -7,7 +7,7 @@ interface SideBarItemProps {
     children?: ReactNode;
 }
 
-const className = "dark:text-dark_text_menu flex-1 ms-3 whitespace-nowrap text-light_text_menu hover:text-primary-100 flex align-middle ";
+const className = "text-color flex-1 ms-3 whitespace-nowrap rounded-lg px-2 py-0.5 hover-text flex align-middle";
 
 export const SideBarItem: React.FC<SideBarItemProps> = ({ id, href = "#", title, children }) => {
     return (

@@ -3,10 +3,9 @@ import { Outlet } from 'react-router-dom';
 
 export const FinHealth = () => {
     return (
-        <div className="grid grid-cols-[300px_1fr] grid-rows-[70px_auto] h-full bg-[linear-gradient(to_top,_rgba(255,255,255,1),_rgba(255,255,255,1))] 
-                dark:bg-[linear-gradient(to_top,_rgba(112,40,228,1),_rgba(0,0,0,1))]">
+        <div className="grid grid-cols-[300px_1fr] grid-rows-[70px_auto] h-full bg-window shadow-lg dark:shadow-md">
             {/* Sidebar */}
-            <aside className="bg-[radial-gradient(circle,_rgba(233,179,252,1)_0%,_rgba(191,143,255,1)_100%)]  row-span-2 ">
+            <aside className="row-span-2 ">
                 <SideBar />
             </aside>
 

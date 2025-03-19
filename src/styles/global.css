@@ -5,7 +5,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme {
+/* @theme {
     --color-light_main: #8914d7;
     --color-light_hover: #bc5bff;
     --color-light_title: #61148f;
@@ -34,16 +34,110 @@
     --color-primary-700: #8914d7;
     --color-primary-950: #43006b;
     --color-primary-800: #7616b3;
-    --color-primary-900: #61148f;
-    /* --bg-light-gradient: linear-gradient(to top, #e5b2ca, #7028e4);
+    --color-primary-900: #61148f; */
+/* --bg-light-gradient: linear-gradient(to top, #e5b2ca, #7028e4);
     --bg-d-gradient-asideMenu: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.3));
     --bg-d-main-background: linear-gradient(to top, rgba(112, 40, 228), rgba(0, 0, 0));
     --bg-l-gradient-asideMenu: linear-gradient(to top left, rgba(188, 0, 255, 1), rgba(188, 0, 255, 0.5));
     --bg-l-gradient-asideMenu: radial-gradient(circle, rgba(233, 179, 252, 1) 0%, rgba(191, 143, 255, 1) 100%);
     --bg-l-main-background: linear-gradient(to top, rgba(255, 255, 255), rgba(255, 255, 255)); */
-    --bg-light-gradient: radial-gradient(circle, rgba(233, 179, 252, 1) 0%, rgba(191, 143, 255, 1) 100%);
+/* --bg-light-gradient: radial-gradient(circle, rgba(233, 179, 252, 1) 0%, rgba(191, 143, 255, 1) 100%);
     --bg-dark-gradient: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.3));
+} */
+
+@theme {
+    /* 🌞 Modo Claro */
+    --color-light_main: #3B82F6;
+    /* Azul vibrante */
+    --color-light_hover: #2563EB;
+    /* Azul más oscuro */
+    --color-light_title: #1E40AF;
+    /* Azul profundo */
+    --color-light_text_menu: #1E3A8A;
+    /* Azul oscuro */
+    --color-light_text: #252526;
+    /* Negro grisáceo */
+    --color-light_text_light: #888890;
+    /* Gris claro */
+    --color-light_focus: #1E40AF;
+    /* Enfocado en azul profundo */
+    --color-light_active: #2563EB;
+    /* Azul medio */
+    --color-light_icons: #60A5FA;
+    /* Azul más claro */
+
+    /* 🌙 Modo Oscuro */
+    --color-dark_main: #0F172A;
+    /* Azul casi negro */
+    --color-dark_hover: #1E293B;
+    /* Azul más suave */
+    --color-dark_title: #60A5FA;
+    /* Azul vibrante */
+    --color-dark_text: #F8FAFC;
+    /* Blanco azulado */
+    --color-dark_text_light: #E2E8F0;
+    /* Gris claro */
+    --color-dark_text_menu: #93C5FD;
+    /* Azul pastel */
+    --color-dark_focus: #3B82F6;
+    /* Azul vibrante */
+    --color-dark_active: #1E40AF;
+    /* Azul profundo */
+    --color-dark_icons: #A5B4FC;
+    /* Azul violeta */
+
+    /* 🎨 Escala de colores */
+    --color-primary-50: #EFF6FF;
+    --color-primary-100: #DBEAFE;
+    --color-primary-200: #BFDBFE;
+    --color-primary-300: #93C5FD;
+    --color-primary-400: #60A5FA;
+    --color-primary-500: #3B82F6;
+    --color-primary-600: #2563EB;
+    --color-primary-700: #1E40AF;
+    --color-primary-800: #1E3A8A;
+    --color-primary-900: #172554;
+    --color-primary-950: #0F172A;
+
+    /* 🎇 Gradientes */
+    --bg-light-gradient: radial-gradient(circle, rgba(191, 219, 254, 1) 0%, rgba(96, 165, 250, 1) 100%);
+    --bg-dark-gradient: linear-gradient(to top, rgba(15, 23, 42, 1), rgba(31, 41, 55, 0.8));
 }
+
+.bg-gradient {
+    background: var(--bg-light-gradient);
+
+    @variant dark {
+        background: linear-gradient(to bottom right, var(--color-primary-800), var(--color-primary-950));
+    }
+}
+
+.bg-window {
+    background: --color-primary-100;
+
+    @variant dark {
+        background: #0f172a;
+    }
+}
+
+.text-color {
+    color: var(--color-light_text);
+
+    @variant dark {
+        color: var(--color-dark_text);
+    }
+}
+
+.hover-text:hover {
+    color: var(--color-dark_text);
+    background: var(--color-primary-600);
+
+    @variant dark {
+        color: var(--color-dark_text);
+        background: var(--color-primary-600);
+    }
+}
+
 
 :root {
     /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

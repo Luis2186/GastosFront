@@ -21,10 +21,7 @@ export const ThemeToggle = () => {
             id="theme-toggle"
             type="button"
             onClick={toggleTheme}
-            className="text-light-text-menu dark:text-dark-text-menu 
-                       hover:bg-light-hover dark:hover:bg-dark-hover 
-                       focus:outline-none focus:ring-4 focus:ring-primary-700 
-                       dark:focus:ring-primary-600 rounded-lg text-sm p-2.5"
+            className="text-color hover-text focus:outline-none rounded-lg text-sm p-2.5"
         >
             {/* Icono de modo oscuro */}
             <svg

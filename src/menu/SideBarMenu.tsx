@@ -7,7 +7,7 @@ interface SideBarMenu {
     children?: ReactNode;
 }
 
-const className = "flex items-center w-full ms-3 p-1 text-base rounded-lg text-light_text_menu transition duration-75 hover:bg-light_hover hover:text-primary-100 dark:text-dark_text_menu dark:hover:bg-dark_hover "
+const className = "flex items-center w-full ms-3 p-1 text-base rounded-lg text-color transition duration-75 hover-text"
 
 export const SideBarMenu: React.FC<SideBarMenu> = ({ title, icon, children }) => {
     const [isOpen, setIsOpen] = useState(false);

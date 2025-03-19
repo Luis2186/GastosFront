@@ -35,7 +35,7 @@ export const SideBar = () => {
                 </svg>
             </button>
 
-            <aside id="default-sidebar" className="top-0 left-0 z-40 fixed md:relative h-screen transition-transform -translate-x-full sm:translate-x-0 sm:block bg-[radial-gradient(circle,_rgba(233,179,252,1)_0%,_rgba(191,143,255,1)_100%)]  dark:bg-[linear-gradient(to_top,_rgba(0,0,0,1),_rgba(0,0,0,0.3))]" aria-label="Sidebar">
+            <aside id="default-sidebar" className="top-0 left-0 z-40 fixed md:relative h-screen transition-transform -translate-x-full sm:translate-x-0 sm:block bg-gradient bg-opacity-40 dark:bg-gradient-to-br from-primary-800 to-primary-950" aria-label="Sidebar">
                 <div className="h-full px-3 overflow-y-auto shadow-2xl">
                     <div className="flex align-middle h-12 my-3 justify-between">
                         <a
