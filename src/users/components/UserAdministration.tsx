@@ -33,6 +33,7 @@ export const UserAdministration = () => {
     useEffect(() => {
     }, [users])
 
+    console.log(users)
 
 
     const handleModal = (usuario: User) => {

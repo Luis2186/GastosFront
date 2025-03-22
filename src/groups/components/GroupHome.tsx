@@ -1,4 +1,5 @@
 import useAuthStore from "../../users/store/useAuthStore";
+import { GroupAll } from "./GroupAll";
 import { GroupCreate } from "./GroupCreate"
 
 const GroupTitle = ({ haveGroup }: { haveGroup: boolean }) => (
@@ -14,7 +15,7 @@ const GroupTitle = ({ haveGroup }: { haveGroup: boolean }) => (
             </>
             :
             <>
-                Detalle de Grupo
+                Tus grupos
             </>
         }
     </h2>
@@ -22,8 +23,8 @@ const GroupTitle = ({ haveGroup }: { haveGroup: boolean }) => (
 
 export const GroupHome = () => {
 
-    const { isAuthenticated, user, errorMessage } = useAuthStore();
-    const haveGroup = (user?.grupoDeGastos?.length ?? 0) > 0;
+    const { user } = useAuthStore();
+    const haveGroup = (user?.expenseGroup?.length ?? 0) > 0;
 
     return (
         <>
@@ -34,9 +35,10 @@ export const GroupHome = () => {
                     </div>
 
                     <div className="col-span-4 row-span-10 flex justify-center mt-10">
-                        {!haveGroup ? <GroupCreate />
+                        <GroupAll />
+                        {/* {!haveGroup ? <GroupCreate />
                             : <div></div>
-                        }
+                        } */}
                     </div>
                 </div>
 

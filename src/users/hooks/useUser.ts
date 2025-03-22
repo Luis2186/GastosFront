@@ -3,6 +3,7 @@ import useUserStore from '../store/useUserStore';
 import { errorDefault, isErrorMessage } from '../../utils/utils';
 import { User } from '../../domain/types/User';
 
+
 export const useUser = () => {
 
     const { users, loading, errorMessage, onLoading, onError, onGetAllUsers, onRemoveUser, onUpdateUser,
@@ -16,9 +17,9 @@ export const useUser = () => {
             if (userUpdate.active === false) userUpdate.active = false;
             if (userUpdate.active === true) userUpdate.active = true;
 
-            const user = await userRepository.updateUser(idUser, userUpdate);
+            const user = await userRepository.update(idUser, userUpdate);
+            if (user) onUpdateUser(user.id, user)
 
-            onUpdateUser(user.id, user)
         } catch (error: unknown) {
             if (isErrorMessage(error)) {
                 onError(error);
@@ -31,9 +32,9 @@ export const useUser = () => {
     const handleGetAllUsers = async () => {
         try {
             onLoading();
-            const users = await userRepository.getUsers();
+            const users: User[] | null = await userRepository.getAll();
 
-            onGetAllUsers(users)
+            if (users) onGetAllUsers(users)
 
         } catch (error) {
             if (isErrorMessage(error)) {
@@ -47,7 +48,7 @@ export const useUser = () => {
     const handleGetUserById = async (userId: string) => {
         try {
             onLoading();
-            return await userRepository.getUserById(userId);
+            return await userRepository.getById(userId);
 
         } catch (error) {
             if (isErrorMessage(error)) {
@@ -61,7 +62,7 @@ export const useUser = () => {
     const handleRemoveUser = async (userId: string) => {
         try {
             onLoading();
-            await userRepository.deleteUser(userId);
+            await userRepository.delete(userId);
             onRemoveUser(userId)
         } catch (error) {
             if (isErrorMessage(error)) {

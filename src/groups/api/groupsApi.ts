@@ -8,7 +8,7 @@ import { mapGroupToGroupResult } from "../../users/api/types/userResult";
 
 const endpoint = 'grupo'
 
-const groupRepository: IGroupRepository = {
+export const groupRepository: IGroupRepository = {
     getAll: async function (): Promise<Group[] | null> {
         try {
             const response = await axiosInstance.get(`${endpoint}/todas`);
@@ -75,6 +75,21 @@ const groupRepository: IGroupRepository = {
         try {
             const response = await axiosInstance.delete(`/${endpoint}/eliminar/${id}`);
             return response.data;
+        } catch (error) {
+            if (isAxiosError(error)) {
+                throw errorDefault(error.response ? error.response.data : error.message);
+            }
+            throw errorDefault();
+        }
+    },
+    getAllByUser: async function (idUser: string): Promise<Group[] | null> {
+        try {
+            const response = await axiosInstance.get(`${endpoint}/todas/${idUser}`);
+            const result: GroupResult[] = response.data;
+
+            const groups: Group[] = result.map(mapGroupResultToGroup);
+
+            return groups;
         } catch (error) {
             if (isAxiosError(error)) {
                 throw errorDefault(error.response ? error.response.data : error.message);
