@@ -26,7 +26,7 @@ export const InputForm = <T extends FieldValues>({
     label,
     classNameInput = 'mt-1 p-2 block w-full border border-primary-700 rounded-md focus:ring-primary-500 focus:border-primary-500 dark:bg-primary-600 dark:text-dark_text ',
     classNameLabel = 'block text-sm font-medium text-primary-700 dark:text-dark_text ',
-    classNameContainer = '',
+    classNameContainer = 'h-full w-full',
     name,
     type,
     register,

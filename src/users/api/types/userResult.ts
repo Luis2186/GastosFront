@@ -1,13 +1,15 @@
-import { Group, User, UserRegister } from "../../../domain/types/User";
+import { Group } from "../../../domain/types/Group";
+import { User, UserRegister } from "../../../domain/types/User";
 
 export interface GroupResult {
     id: number;
     nombre: string;
     descripcion: string;
-    fechaDeCreacion: Date;
+    fechaDeCreacion?: Date;
     usuarioAdministradorId: string;
     miembros?: UserResult[];
     activo: boolean;
+    codigoAcceso?: string
 }
 
 export interface UserResult {
@@ -92,7 +94,8 @@ export const mapGroupToGroupResult = (group: Group): GroupResult => {
         fechaDeCreacion: group.creationDate,
         usuarioAdministradorId: group.adminUserId,
         miembros: group.members?.map(mapUserToUserResult),
-        activo: group.active
+        activo: group.active ?? false,
+        codigoAcceso: group.accessCode
     }
 }
 

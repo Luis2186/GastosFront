@@ -5,6 +5,9 @@ import { SideBarMenu } from "./SideBarMenu"
 import { ThemeToggle } from "./ThemeToggle";
 import { UserCard } from "../users/components/UserCard";
 
+
+
+
 export const SideBar = () => {
 
     const { user } = useAuthStore();
@@ -55,27 +58,40 @@ export const SideBar = () => {
                     </div>
 
                     <ul className="space-y-2 font-medium mt-16">
+
                         <SideBarItem title="Home" href="/Home">
-                            <i className="fa-solid fa-house fa-lg flex self-center w-8 text-center"></i>
+                            <span className="w-11 flex justify-center align-middle">
+                                <i className="fa-solid fa-house fa-lg flex self-center w-7 text-start"></i>
+                            </span>
                         </SideBarItem>
 
-                        <SideBarMenu title="Panel de control" icon={<i className="fa-solid fa-gears fa-lg self-center w-8 text-center "></i>}>
+                        <SideBarMenu title="Panel de control" icon={
+                            <span className="w-11 flex justify-center align-middle">
+                                <i className="fa-solid fa-gears fa-lg self-center w-7 text-start"></i>
+                            </span>}
+                        >
 
                             {
                                 (roles.includes("Sys_Adm") ||
                                     roles.includes("Administrador")) && (
                                     <SideBarItem title="Administracion de usuarios" href={"/UsersAdministration"}>
-                                        <i className="fa-solid fa-users fa-lg self-center w-6 text-center" />
+                                        <span className="w-11 flex justify-center align-middle">
+                                            <i className="fa-solid fa-users fa-lg self-center w-7 text-start" />
+                                        </span>
                                     </SideBarItem>
                                 )
                             }
 
                             <SideBarItem title="Categorias" href={"/Categories"}>
-                                <i className="fa-solid fa-list fa-lg self-center w-6 text-center "></i>
+                                <span className="w-11 flex justify-center align-middle">
+                                    <i className="fa-solid fa-list fa-lg self-center w-7 text-start "></i>
+                                </span>
                             </SideBarItem>
 
                             <SideBarItem title="Monedas" href={""} >
-                                <i className="fa-solid fa-dollar-sign fa-lg self-center w-6 text-center "></i>
+                                <span className="w-11 flex justify-center align-middle">
+                                    <i className="fa-solid fa-dollar-sign fa-lg self-center w-7 text-start "></i>
+                                </span>
                             </SideBarItem>
                         </SideBarMenu>
 
@@ -91,7 +107,9 @@ export const SideBar = () => {
             </SideBarItem> --> */}
 
                         <SideBarItem title="Sign out" href="/SignIn" id="signOut">
-                            <i className="fa-solid fa-arrow-right-to-bracket fa-lg fa-rotate-180 self-center w-8 text-center"></i>
+                            <span className="w-11 flex justify-center align-middle">
+                                <i className="fa-solid fa-arrow-right-to-bracket fa-lg fa-rotate-180 self-center w-7 text-start"></i>
+                            </span>
                         </SideBarItem>
                     </ul>
 

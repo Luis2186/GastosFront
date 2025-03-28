@@ -1,7 +1,7 @@
 import { isAxiosError } from "axios";
 import axiosInstance from "../../api/axiosConfig";
 import { IGroupRepository } from "./interfaces/IGroupRepository";
-import { GroupResult, mapGroupResultToGroup } from "./types/GroupResult";
+import { GroupResult, JoinGroup, mapGroupResultToGroup, mapJoinGroupToJoinGroupResult } from "./types/GroupResult";
 import { errorDefault } from "../../utils/utils";
 import { Group } from "../../domain/types/Group";
 import { mapGroupToGroupResult } from "../../users/api/types/userResult";
@@ -57,9 +57,9 @@ export const groupRepository: IGroupRepository = {
     },
     create: async function (entity: Group): Promise<Group | null> {
         try {
-            const groupResult = mapGroupToGroupResult(entity);
 
-            const response = await axiosInstance.put(`/${endpoint}/crear`, groupResult);
+            const groupResult = mapGroupToGroupResult(entity);
+            const response = await axiosInstance.post(`/${endpoint}/crear`, groupResult);
             const result: GroupResult = response.data;
 
             const group = mapGroupResultToGroup(result);
@@ -90,6 +90,20 @@ export const groupRepository: IGroupRepository = {
             const groups: Group[] = result.map(mapGroupResultToGroup);
 
             return groups;
+        } catch (error) {
+            if (isAxiosError(error)) {
+                throw errorDefault(error.response ? error.response.data : error.message);
+            }
+            throw errorDefault();
+        }
+    },
+    joinGroup: async function (joinGroup: JoinGroup): Promise<boolean | null> {
+        try {
+            const joinGroupResult = mapJoinGroupToJoinGroupResult(joinGroup);
+            console.log(joinGroupResult)
+            const response = await axiosInstance.post(`solicitud/porCodigo`, joinGroupResult);
+
+            return true;
         } catch (error) {
             if (isAxiosError(error)) {
                 throw errorDefault(error.response ? error.response.data : error.message);

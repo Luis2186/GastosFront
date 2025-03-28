@@ -7,11 +7,11 @@ interface SideBarItemProps {
     children?: ReactNode;
 }
 
-const className = "text-color flex-1 ms-3 whitespace-nowrap rounded-lg px-2 py-0.5 hover-text flex align-middle";
+const className = "text-color flex w-60 align-middle justify-items-start rounded-lg px-2 py-0.5 hover-text ";
 
 export const SideBarItem: React.FC<SideBarItemProps> = ({ id, href = "#", title, children }) => {
     return (
-        <li className="h-full flex justify-center align-middle w-full p-1">
+        <li className="h-full flex justify-start align-middle w-full ">
             <a id={id} href={href} className={className}>
                 {children}
                 <span className="p-1">{title}</span>

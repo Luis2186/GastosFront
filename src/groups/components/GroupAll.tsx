@@ -40,7 +40,7 @@ export const GroupAll = () => {
 
     console.log(columns, data)
     return (
-        <div className="w-3/4">
+        <div className="w-full h-full">
             {
                 data && columns && <GenericTable columns={columns} data={data} />
             }

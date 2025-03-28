@@ -1,6 +1,18 @@
 import { Group } from "../../../domain/types/Group"
 import { User } from "../../../domain/types/User";
 
+
+export type JoinGroupResult = {
+    usuarioId: string,
+    grupoGastoId: number,
+    codigo: string
+}
+
+export type JoinGroup = {
+    userId: string,
+    groupId: number
+    code: string
+}
 export type GroupResult = {
     id: number,
     nombre: string,
@@ -13,7 +25,7 @@ export type GroupResult = {
 }
 
 export interface createGroup {
-    nombre: string;
+    name: string;
     descripcion: string;
     usuarioAdministradorId: string;
     codigoAcceso: string;
@@ -21,6 +33,21 @@ export interface createGroup {
     codigo?: boolean;
 }
 
+export const mapJoinGroupToJoinGroupResult = (joinGroup: JoinGroup) => {
+    return {
+        usuarioId: joinGroup.userId,
+        codigo: joinGroup.code,
+        grupoGastoId: joinGroup.groupId
+    }
+}
+
+export const mapJoinGroupResultToJoinGroup = (joinGroup: JoinGroupResult) => {
+    return {
+        userId: joinGroup.usuarioId,
+        code: joinGroup.codigo,
+        groupId: joinGroup.grupoGastoId
+    }
+}
 
 export const mapGroupToSubGroupResult = (group: Group) => {
     return {

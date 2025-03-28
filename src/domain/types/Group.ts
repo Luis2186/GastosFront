@@ -4,9 +4,9 @@ export interface Group {
     id: number;
     name: string;
     description: string;
-    creationDate: Date;
+    creationDate?: Date;
     adminUserId: string;
     members?: User[];
-    active: boolean;
+    active?: boolean;
     accessCode?: string
 }
