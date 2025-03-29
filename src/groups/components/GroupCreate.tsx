@@ -1,21 +1,42 @@
 import { useForm } from "react-hook-form";
 import { InputForm } from "../../components/InputForm";
-import { createGroup, JoinGroup } from "../api/types/GroupResult";
+import { JoinGroup } from "../api/types/GroupResult";
 import { groupRepository } from "../api/groupsApi";
 import { Group } from "../../domain/types/Group";
 import useAuthStore from "../../users/store/useAuthStore";
+import { DropdownSearch } from "../../components/DropdownSearch";
+import { useEffect, useState } from "react";
 
 interface GroupCreate {
     create: boolean; // Prop que define si se está creando o uniéndose a un grupo
 }
 
+
+
 export const GroupCreate = ({ create }: GroupCreate) => {
     const { user } = useAuthStore()
+    const [groups, setGroups] = useState<Group[] | null>();
     const { register, handleSubmit, formState: { errors } } = useForm<Group>({
         // Resolver y validaciones adicionales si es necesario
     });
-
+    console.log(groups)
     const joinGroup = !create; // `false` para "unirse", `true` para "crear"
+
+    useEffect(() => {
+
+        const fetchGroups = async () => {
+            const groups: Group[] | null = await groupRepository.getAll(); // Aquí haces la solicitud a tu API o repositorio
+            setGroups(groups)
+            return groups;
+        };
+        fetchGroups();
+    }, [])
+
+
+    const handleGroupSelect = (group: Group) => {
+        console.log("Group selected:", group);
+    };
+
 
     const onSubmit = async (data: Group) => {
 
@@ -45,7 +66,20 @@ export const GroupCreate = ({ create }: GroupCreate) => {
             <div className="h-auto w-full p-4 border border-light_active rounded-lg shadow sm:p-6 md:p-8 bg-primary-50 bg-opacity-40 dark:bg-gradient-to-br from-primary-800 to-primary-950 dark:border-white-700">
                 <form className="flex flex-col justify-center w-full h-auto gap-2" onSubmit={handleSubmit(onSubmit)}>
                     {joinGroup ? (
+
+
+
                         <div className="w-full h-auto grid grid-cols-1 gap-2">
+
+                            <DropdownSearch
+                                items={groups ?? []}
+                                label="Buscar Grupo"
+                                keyExtractor={(group) => group.id.toString()}
+                                onSelect={handleGroupSelect}
+                                searchKey={(group) => group.name}
+                                placeholder="Buscar grupo"
+                            />
+
                             <InputForm type="text" name="accessCode" label="Codigo de unión" register={register} errors={errors.accessCode} />
                         </div>
                     ) : (

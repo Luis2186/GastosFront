@@ -25,7 +25,7 @@ const App = () => {
                         {/* Estas son las rutas anidadas que se cargarán dentro de FinHealth */}
                         <Route path="/UsersAdministration" element={<UserAdministration />} />
                         <Route path="/Categories" element={<Categorie />} />
-                        <Route path="/Home" element={<GroupHome />} />
+                        <Route path="/Home/*" element={<GroupHome />} />
                         {/* Puedes agregar más rutas aquí según lo necesites */}
 
                     </Route>

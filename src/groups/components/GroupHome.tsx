@@ -1,38 +1,10 @@
-import { useEffect, useState } from "react";
 import { ButtonGroup } from "../../components/ButtonGroup";
 import { ButtonGroups } from "../../components/ButtonsGroups";
-import useAuthStore from "../../users/store/useAuthStore";
 import { GroupAll } from "./GroupAll";
 import { GroupCreate } from "./GroupCreate";
-
-const GroupTitle = ({ haveGroup }: { haveGroup: boolean }) => (
-    <h2 className="text-light_main dark:text-dark_title text-3xl tracking-wide">
-        {!haveGroup ?
-            <>
-                ¡Cree un nuevo grupo
-                <span className="text-light_hover text-3xl ml-2">
-                    o unase a uno!
-                </span>
-            </>
-            :
-            <>
-                Tus grupos
-            </>
-        }
-    </h2>
-);
+import { Route, Routes } from "react-router-dom";
 
 export const GroupHome = () => {
-
-    const { user } = useAuthStore();
-    const haveGroup = (user?.expenseGroup?.length ?? 0) > 0;
-    const [activeComponent, setActiveComponent] = useState("viewAll");
-
-    console.log(activeComponent)
-    const handleButtonClick = (component: string) => {
-        setActiveComponent(component);
-    };
-
 
     return (
         <>
@@ -44,29 +16,56 @@ export const GroupHome = () => {
 
                     <div className="col-span-4 h-auto flex justify-center align-middle mb-5">
                         <ButtonGroups cols={3} >
-                            <ButtonGroup title="Home"
+                            <ButtonGroup
+                                title="Unirse"
                                 icon={<i className="fa-solid fa-handshake fa-lg fa-rotate-180 self-center w-7 text-start"></i>}
                                 position="left"
-                                onClick={() => handleButtonClick("join")}
+                                to="/Home/join" // Ruta relativa
+                                onClick={() => { }}
                             />
                             <ButtonGroup
-                                title="Home"
+                                title="Ver Todos"
                                 icon={<i className="fa-solid fa-users fa-lg self-center w-7 text-start"></i>}
                                 position="center"
-                                onClick={() => handleButtonClick("viewAll")}
+                                to="/Home/view-all" // Ruta relativa
+                                onClick={() => { }}
                             />
                             <ButtonGroup
-                                title="Home"
+                                title="Crear"
                                 icon={<i className="fa-solid fa-circle-plus fa-lg fa-rotate-180 self-center w-7 text-start"></i>}
                                 position="rigth"
-                                onClick={() => handleButtonClick("create")}
+                                to="/Home/create" // Ruta relativa
+                                onClick={() => { }}
                             />
                         </ButtonGroups >
                     </div>
 
 
+
+                    {/* Rutas y componentes */}
+
+                    <Routes>
+                        <Route path="join" element={
+                            <div className="col-start-2 col-span-2 flex h-auto justify-center">
+                                <GroupCreate create={false} />
+                            </div>
+                        } />
+
+                        <Route path="create" element={
+                            <div className="col-start-2 col-span-2 flex h-auto justify-center">
+                                <GroupCreate create={true} />
+                            </div>
+                        } />
+
+                        <Route path="view-all" element={
+                            <div className="col-span-4 flex h-auto justify-center">
+                                <GroupAll />
+                            </div>
+                        } />
+                    </Routes>
+
                     {/* Renderizado de componentes según el estado de activeComponent */}
-                    {activeComponent === "join" ? (
+                    {/* {activeComponent === "join" ? (
                         <div className="col-start-2 col-span-2 flex h-auto justify-center">
                             <GroupCreate create={false} />
                         </div>
@@ -78,13 +77,9 @@ export const GroupHome = () => {
                         <div className="col-span-4 flex h-auto justify-center">
                             <GroupAll />
                         </div>
-                    )}
-
-
-
+                    )} */}
 
                 </div>
-
             </div>
         </>
 

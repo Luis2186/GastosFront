@@ -10,7 +10,6 @@ import { GenericTable } from "../../components/GenericTable"
 export const GroupAll = () => {
 
     const { user } = useAuthStore()
-    const [groupExpensive, setGroupExpensive] = useState<Group[] | null>()
     const [data, setData] = useState<any>();
     const [columns, setColumns] = useState<string[]>([]);
 
@@ -18,14 +17,13 @@ export const GroupAll = () => {
         const getGroups = async (idUser: string) => {
             // Simulamos una llamada al repositorio de grupos (deberías reemplazarlo con tu lógica)
             const groups: Group[] | null = await groupRepository.getAllByUser(idUser);
-            setGroupExpensive(groups);
 
             if (groups) {
                 // Define las columnas
-                const cols = ["Nombre", "Descripcion"];
+                const cols = ["Nombre", "Descripcion", "Admin"];
 
                 // Mapea los grupos a los datos de la tabla
-                const data = groups.map((group) => ({ Nombre: group.name, Descripcion: group.description }));
+                const data = groups.map((group) => ({ Nombre: group.name, Descripcion: group.description, Admin: user?.id == group.adminUserId ? "Si" : "No" }));
 
                 // Actualiza las columnas y los datos
                 setColumns(cols);
@@ -38,7 +36,7 @@ export const GroupAll = () => {
         }
     }, [user?.id]); // Agregar user?.id como dependencia para que se ejecute cuando el ID del usuario cambie
 
-    console.log(columns, data)
+
     return (
         <div className="w-full h-full">
             {
