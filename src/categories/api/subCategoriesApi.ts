@@ -1,6 +1,5 @@
-import { isAxiosError } from "axios";
 import axiosInstance from "../../api/axiosConfig";
-import { errorDefault } from "../../utils/utils";
+import { handleError } from "../../utils/utils";
 import { mapSubCategorieResultToSubCategorie, mapSubCategorieToSubCategorieResult, SubCategorieResult } from "./types/SubCategoriesResult";
 import { SubCategorie } from "../../domain/types/SubCategorie";
 import { ISubCategoriesRepository } from "./interfaces/ISubCategoriesRepository";
@@ -17,10 +16,7 @@ export const subCategoriesRepository: ISubCategoriesRepository = {
 
             return subCategories;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
 
@@ -39,10 +35,7 @@ export const subCategoriesRepository: ISubCategoriesRepository = {
 
             return subCategories;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
     update: async function (id: number | string, entity: SubCategorie): Promise<SubCategorie | null> {
@@ -55,10 +48,7 @@ export const subCategoriesRepository: ISubCategoriesRepository = {
             const subCategorie = mapSubCategorieResultToSubCategorie(result);
             return subCategorie;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
     create: async function (entity: SubCategorie): Promise<SubCategorie | null> {
@@ -71,10 +61,7 @@ export const subCategoriesRepository: ISubCategoriesRepository = {
 
             return subCategorie;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
     delete: async function (id: number | string): Promise<boolean> {
@@ -82,10 +69,7 @@ export const subCategoriesRepository: ISubCategoriesRepository = {
             const response = await axiosInstance.delete(`/${endpoint}/eliminar/${id}`);
             return response.data;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     }
 }

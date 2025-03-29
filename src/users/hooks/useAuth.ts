@@ -1,6 +1,6 @@
 // src/hooks/useAuth.js
 import { User, UserRegister } from '../../domain/types/User';
-import { errorDefault, isErrorMessage } from '../../utils/utils';
+import { createErrorObject, isErrorMessage } from '../../utils/utils';
 import { LoginResult } from '../api/types/userResult';
 import { userRepository } from '../api/userApi';
 import useAuthStore from '../store/useAuthStore';
@@ -28,7 +28,7 @@ export const useAuth = () => {
             if (isErrorMessage(err)) {
                 onLogout(err);
             } else {
-                onLogout(errorDefault());
+                onLogout(createErrorObject());
             }
             console.error('Credenciales inválidas', err);
         }
@@ -44,7 +44,7 @@ export const useAuth = () => {
             if (isErrorMessage(err)) {
                 onLogout(err);
             } else {
-                onLogout(errorDefault());
+                onLogout(createErrorObject());
             }
             console.error('Credenciales inválidas', err);
         }
@@ -72,7 +72,7 @@ export const useAuth = () => {
             if (isErrorMessage(err)) {
                 onLogout(err);
             } else {
-                onLogout(errorDefault());
+                onLogout(createErrorObject());
             }
 
         } finally {

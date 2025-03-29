@@ -3,6 +3,8 @@ import useAuthStore from "../../users/store/useAuthStore"
 import { Group } from "../../domain/types/Group"
 import { groupRepository } from "../api/groupsApi"
 import { GenericTable } from "../../components/GenericTable"
+import { errorMessage } from "../../types/input"
+import { isErrorMessage } from "../../utils/typeGuards"
 
 
 
@@ -16,9 +18,9 @@ export const GroupAll = () => {
     useEffect(() => {
         const getGroups = async (idUser: string) => {
             // Simulamos una llamada al repositorio de grupos (deberías reemplazarlo con tu lógica)
-            const groups: Group[] | null = await groupRepository.getAllByUser(idUser);
-
-            if (groups) {
+            const groups: Group[] | errorMessage = await groupRepository.getAllByUser(idUser);
+            console.log(groups)
+            if (groups && !isErrorMessage(groups)) {
                 // Define las columnas
                 const cols = ["Nombre", "Descripcion", "Admin"];
 
@@ -29,6 +31,8 @@ export const GroupAll = () => {
                 setColumns(cols);
                 setData(data);
             }
+
+            return groups;
         };
 
         if (user?.id) {

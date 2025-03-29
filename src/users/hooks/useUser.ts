@@ -1,6 +1,6 @@
 import { userRepository } from '../api/userApi';
 import useUserStore from '../store/useUserStore';
-import { errorDefault, isErrorMessage } from '../../utils/utils';
+import { createErrorObject, isErrorMessage } from '../../utils/utils';
 import { User } from '../../domain/types/User';
 
 
@@ -24,7 +24,7 @@ export const useUser = () => {
             if (isErrorMessage(error)) {
                 onError(error);
             } else {
-                onError(errorDefault());
+                createErrorObject(500, 'Error inesperado, por favor intente nuevamente.');
             }
         }
     }
@@ -40,7 +40,7 @@ export const useUser = () => {
             if (isErrorMessage(error)) {
                 onError(error);
             } else {
-                onError(errorDefault());
+                createErrorObject(500, 'Error inesperado, por favor intente nuevamente.');
             }
         }
     }
@@ -54,7 +54,7 @@ export const useUser = () => {
             if (isErrorMessage(error)) {
                 onError(error);
             } else {
-                onError(errorDefault());
+                createErrorObject(500, 'Error inesperado, por favor intente nuevamente.');
             }
         }
     }
@@ -68,7 +68,7 @@ export const useUser = () => {
             if (isErrorMessage(error)) {
                 onError(error);
             } else {
-                onError(errorDefault());
+                createErrorObject(500, 'Error inesperado, por favor intente nuevamente.');
             }
         }
     }
@@ -85,7 +85,7 @@ export const useUser = () => {
             if (isErrorMessage(error)) {
                 onError(error);
             } else {
-                onError(errorDefault());
+                createErrorObject(500, 'Error inesperado, por favor intente nuevamente.');
             }
         }
     }
@@ -103,7 +103,7 @@ export const useUser = () => {
             if (isErrorMessage(error)) {
                 onError(error);
             } else {
-                onError(errorDefault());
+                createErrorObject(500, 'Error inesperado, por favor intente nuevamente.');
             }
         }
     }

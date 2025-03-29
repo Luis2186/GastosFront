@@ -3,6 +3,7 @@ import { ButtonGroups } from "../../components/ButtonsGroups";
 import { GroupAll } from "./GroupAll";
 import { GroupCreate } from "./GroupCreate";
 import { Route, Routes } from "react-router-dom";
+import { GroupJoin } from "./GroupJoin";
 
 export const GroupHome = () => {
 
@@ -40,20 +41,18 @@ export const GroupHome = () => {
                         </ButtonGroups >
                     </div>
 
-
-
                     {/* Rutas y componentes */}
 
                     <Routes>
                         <Route path="join" element={
                             <div className="col-start-2 col-span-2 flex h-auto justify-center">
-                                <GroupCreate create={false} />
+                                <GroupJoin />
                             </div>
                         } />
 
                         <Route path="create" element={
                             <div className="col-start-2 col-span-2 flex h-auto justify-center">
-                                <GroupCreate create={true} />
+                                <GroupCreate />
                             </div>
                         } />
 

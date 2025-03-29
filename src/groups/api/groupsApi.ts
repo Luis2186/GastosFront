@@ -1,30 +1,27 @@
-import { isAxiosError } from "axios";
 import axiosInstance from "../../api/axiosConfig";
 import { IGroupRepository } from "./interfaces/IGroupRepository";
 import { GroupResult, JoinGroup, mapGroupResultToGroup, mapJoinGroupToJoinGroupResult } from "./types/GroupResult";
-import { errorDefault } from "../../utils/utils";
 import { Group } from "../../domain/types/Group";
 import { mapGroupToGroupResult } from "../../users/api/types/userResult";
+import { createErrorObject, handleError } from "../../utils/utils";
+import { errorMessage } from "../../types/input";
 
 const endpoint = 'grupo'
 
 export const groupRepository: IGroupRepository = {
-    getAll: async function (): Promise<Group[] | null> {
+    getAll: async function (): Promise<Group[] | errorMessage> {
         try {
             const response = await axiosInstance.get(`${endpoint}/todas`);
             const result: GroupResult[] = response.data;
 
             const groups: Group[] = result.map(mapGroupResultToGroup);
 
-            return groups;
+            return groups ?? createErrorObject(response.status);
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            return handleError(error);
         }
     },
-    getById: async function (id: number | string): Promise<Group | null> {
+    getById: async function (id: number | string): Promise<Group | errorMessage> {
         try {
             const response = await axiosInstance.get(`${endpoint}/obtener/${id}`);
             const result: GroupResult = response.data;
@@ -33,13 +30,10 @@ export const groupRepository: IGroupRepository = {
 
             return group;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            return handleError(error);
         }
     },
-    update: async function (id: number | string, entity: Group): Promise<Group | null> {
+    update: async function (id: number | string, entity: Group): Promise<Group | errorMessage> {
         try {
             const groupResult = mapGroupToGroupResult(entity);
 
@@ -49,13 +43,10 @@ export const groupRepository: IGroupRepository = {
             const group = mapGroupResultToGroup(result);
             return group;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            return handleError(error);
         }
     },
-    create: async function (entity: Group): Promise<Group | null> {
+    create: async function (entity: Group): Promise<Group | errorMessage> {
         try {
 
             const groupResult = mapGroupToGroupResult(entity);
@@ -63,26 +54,24 @@ export const groupRepository: IGroupRepository = {
             const result: GroupResult = response.data;
 
             const group = mapGroupResultToGroup(result);
-            return group;
+            if (group) return group;
+
+            return createErrorObject()
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            return handleError(error);
         }
     },
     delete: async function (id: number | string): Promise<boolean> {
         try {
             const response = await axiosInstance.delete(`/${endpoint}/eliminar/${id}`);
-            return response.data;
+
+            // Si la respuesta contiene datos, devolvemos true. Caso contrario, false.
+            return response.data != null;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            throw handleError(error);
         }
     },
-    getAllByUser: async function (idUser: string): Promise<Group[] | null> {
+    getAllByUser: async function (idUser: string): Promise<Group[] | errorMessage> {
         try {
             const response = await axiosInstance.get(`${endpoint}/todas/${idUser}`);
             const result: GroupResult[] = response.data;
@@ -91,24 +80,17 @@ export const groupRepository: IGroupRepository = {
 
             return groups;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            return handleError(error);
         }
     },
-    joinGroup: async function (joinGroup: JoinGroup): Promise<boolean | null> {
+    joinGroup: async function (joinGroup: JoinGroup): Promise<boolean | errorMessage> {
         try {
             const joinGroupResult = mapJoinGroupToJoinGroupResult(joinGroup);
-            console.log(joinGroupResult)
             const response = await axiosInstance.post(`solicitud/porCodigo`, joinGroupResult);
 
-            return true;
+            return response != null;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            return handleError(error);
         }
     }
 }

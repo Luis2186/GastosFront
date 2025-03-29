@@ -6,6 +6,7 @@ import { FinHealth } from './FinHealth';
 import { Categorie } from './categories/components/Categorie';
 import { GroupHome } from './groups/components/GroupHome';
 import { UserAdministration } from './users/components/UserAdministration';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
     return (
@@ -33,8 +34,11 @@ const App = () => {
 
                     {/* Si ninguna ruta coincide */}
                     <Route path="*" element={<Login />} />
+
+
                 </Routes>
             </Router>
+
         </div>
     )
 }

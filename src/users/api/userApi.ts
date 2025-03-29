@@ -1,5 +1,4 @@
-import { isAxiosError } from "axios";
-import { errorDefault } from "../../utils/utils";
+import { handleError } from "../../utils/utils";
 import axiosInstance from "../../api/axiosConfig";
 import { User, UserRegister } from "../../domain/types/User";
 import { LoginResult, mapUserRegisterToUserRegisterResult, mapUserResultToUser, mapUserToUserResult, UserResult } from "./types/userResult";
@@ -16,10 +15,7 @@ export const userRepository: IUserRepository = {
             console.log(response);
             return response.data;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
 
@@ -30,10 +26,7 @@ export const userRepository: IUserRepository = {
 
             return response.data;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
 
@@ -43,10 +36,7 @@ export const userRepository: IUserRepository = {
 
             return response;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
 
@@ -56,10 +46,7 @@ export const userRepository: IUserRepository = {
             const response = await axiosInstance.post('usuario/refresh-token', refreshToken);
             return response;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
 
@@ -73,10 +60,7 @@ export const userRepository: IUserRepository = {
 
             return usersMaps;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
 
@@ -89,10 +73,7 @@ export const userRepository: IUserRepository = {
 
             return userMap;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
 
@@ -107,10 +88,7 @@ export const userRepository: IUserRepository = {
 
             return user;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
 
@@ -119,7 +97,7 @@ export const userRepository: IUserRepository = {
             const response = await axiosInstance.delete(`/usuario/eliminar/${idUser}`);
             return response.data;
         } catch (error) {
-            throw error;
+            handleError(error);
         }
     },
 
@@ -129,10 +107,7 @@ export const userRepository: IUserRepository = {
 
             return response.data;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
 
@@ -142,10 +117,7 @@ export const userRepository: IUserRepository = {
 
             return response.data;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
 
@@ -162,10 +134,7 @@ export const userRepository: IUserRepository = {
             return response.data;
 
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
 
@@ -180,10 +149,7 @@ export const userRepository: IUserRepository = {
             return response.data;
 
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
     create: function (entity: User): Promise<User | null> {

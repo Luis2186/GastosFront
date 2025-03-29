@@ -1,6 +1,5 @@
-import { isAxiosError } from "axios";
 import axiosInstance from "../../api/axiosConfig";
-import { errorDefault } from "../../utils/utils";
+import { handleError } from "../../utils/utils";
 import { Categorie } from "../../domain/types/Categorie";
 import { CategorieResult, mapCategorieResultToCategorie, mapCategorieToCategorieResult } from "./types/CategoriesResult";
 import { ICategoriesRepository } from "./interfaces/ICategoriesRepository";
@@ -19,10 +18,7 @@ export const categoriesRepository: ICategoriesRepository = {
 
             return categories;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
 
@@ -41,10 +37,7 @@ export const categoriesRepository: ICategoriesRepository = {
             return categorie;
 
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
     },
     update: async function (id: number | string, entity: Categorie): Promise<Categorie | null> {
@@ -58,12 +51,8 @@ export const categoriesRepository: ICategoriesRepository = {
 
             return categorie;
         } catch (error) {
-            if (isAxiosError(error)) {
-                throw errorDefault(error.response ? error.response.data : error.message);
-            }
-            throw errorDefault();
+            handleError(error);
         }
-        throw new Error("Function not implemented.");
     },
     create: async function (entity: Categorie): Promise<Categorie | null> {
         throw new Error("Function not implemented.");

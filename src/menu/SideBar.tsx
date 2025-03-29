@@ -59,7 +59,7 @@ export const SideBar = () => {
 
                     <ul className="space-y-2 font-medium mt-16">
 
-                        <SideBarItem title="Home" href="/Home">
+                        <SideBarItem title="Home" href="/Home/view-all">
                             <span className="w-11 flex justify-center align-middle">
                                 <i className="fa-solid fa-house fa-lg flex self-center w-7 text-start"></i>
                             </span>
