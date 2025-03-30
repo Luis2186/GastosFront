@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
-import { UserAdministration } from '../users/components/UserAdministration';
-import { Categorie } from '../categories/components/Categorie';
+import { UserAdministration } from '../models/users/components/UserAdministration';
+import { Categorie } from '../models/categories/components/Categorie';
 
 export const FinHealthRoutes = () => {
 

@@ -1,4 +1,4 @@
-import { GroupResult } from "../../users/api/types/userResult";
+import { GroupResult } from "../../models/users/api/types/userResult";
 import { Group } from "./Group";
 
 export type User = {

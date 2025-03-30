@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './users/components/Login';
+import Login from './models/users/components/Login';
 import PrivateRoute from './routes/PrivateRoute';
-import Register from './users/components/Register';
+import Register from './models/users/components/Register';
 import { FinHealth } from './FinHealth';
-import { Categorie } from './categories/components/Categorie';
-import { GroupHome } from './groups/components/GroupHome';
-import { UserAdministration } from './users/components/UserAdministration';
+import { Categorie } from './models/categories/components/Categorie';
+import { GroupHome } from './models/groups/components/GroupHome';
+import { UserAdministration } from './models/users/components/UserAdministration';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {

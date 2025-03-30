@@ -1,9 +1,9 @@
 import { useState } from "react";
-import useAuthStore from "../users/store/useAuthStore";
+import useAuthStore from "../models/users/store/useAuthStore";
 import { SideBarItem } from "./SideBarItem"
 import { SideBarMenu } from "./SideBarMenu"
 import { ThemeToggle } from "./ThemeToggle";
-import { UserCard } from "../users/components/UserCard";
+import { UserCard } from "../models/users/components/UserCard";
 
 
 
