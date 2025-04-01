@@ -88,7 +88,12 @@ export const groupRepository: IGroupRepository = {
             const joinGroupResult = mapJoinGroupToJoinGroupResult(joinGroup);
             const response = await axiosInstance.post(`solicitud/porCodigo`, joinGroupResult);
 
-            return response != null;
+            // Check if the response status is in the success range (200-299)
+            if (response.status >= 200 && response.status < 300 && response.data) {
+                return true;
+            }
+
+            return createErrorObject(response.status, response?.data?.message);
         } catch (error) {
             return handleError(error);
         }

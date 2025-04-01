@@ -9,6 +9,8 @@ import { useUser } from '../hooks/useUser.ts';
 import { InputForm } from '../../../components/InputForm.tsx';
 import { userRepository } from '../api/userApi.ts';
 import { User } from '../../../domain/types/User.ts';
+import { errorMessage } from '../../../types/input.ts';
+import { isErrorMessage } from '../../../utils/typeGuards.ts';
 
 interface Rol {
     rol: string;
@@ -22,16 +24,17 @@ interface RolesModalProps {
 
 export const RolesModal: React.FC<RolesModalProps> = ({ user, isOpen, onClose, }) => {
     const { register, handleSubmit, getValues, formState: { errors } } = useForm<Rol>();
-    const [roles, setRoles] = useState([]);
-    const [rolesByUser, setRolesByUser] = useState([]);
+    const [roles, setRoles] = useState<string[]>([]);
+    const [rolesByUser, setRolesByUser] = useState<string[]>([]);
     const { handleAddRolUser } = useUser();
     const { users } = useUserStore()
 
     useEffect(() => {
         const fetchRoles = async () => {
             try {
-                const roles = await userRepository.getRoles()
-                setRoles(roles)
+                const roles: string[] | errorMessage = await userRepository.getRoles()
+
+                if (!isErrorMessage(roles)) setRoles(roles)
             } catch (error) {
                 console.error("Error fetching usuarios:", error);
             }
@@ -43,8 +46,13 @@ export const RolesModal: React.FC<RolesModalProps> = ({ user, isOpen, onClose, }
 
         const fetchRolesByUser = async () => {
             try {
-                const roles = await userRepository.getRolesbyUser(user.id)
-                setRolesByUser(roles)
+                console.log("users", user)
+                if (!user) return
+
+                const roles: string[] | errorMessage = await userRepository.getRolesbyUser(user.id)
+
+                if (!isErrorMessage(roles)) setRolesByUser(roles)
+                // setRolesByUser(roles)
             } catch (error) {
                 console.error("Error fetching usuarios:", error);
             }
@@ -58,7 +66,7 @@ export const RolesModal: React.FC<RolesModalProps> = ({ user, isOpen, onClose, }
         await handleAddRolUser(user.id, "", rol.rol)
     }
 
-    const rolesOptions = roles.map(rol => {
+    const rolesOptions = roles?.map(rol => {
         return { value: rol, label: rol }
     })
 
@@ -85,7 +93,7 @@ export const RolesModal: React.FC<RolesModalProps> = ({ user, isOpen, onClose, }
             <h2 className='dark:text-dark_text text-primary-700'> Roles de usuario</h2>
 
             {
-                rolesByUser.map(rol => (
+                rolesByUser?.map(rol => (
                     <RolItem key={rol} rol={rol} userId={user.id} />
                 ))
             }

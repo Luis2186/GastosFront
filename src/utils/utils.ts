@@ -2,23 +2,32 @@ import { errorMessage } from "../types/input";
 import axios from 'axios';
 
 
-// Manejo de errores
-export function handleError(error: unknown): errorMessage {
-    if (axios.isAxiosError(error)) {
-        const errorMsg = error.response?.data?.message || error.message || 'Error desconocido';
-        return createErrorObject(error.status, errorMsg);
-    }
 
-    return createErrorObject(500, 'Error inesperado, por favor intente nuevamente.');
+type error = {
+    code: string,
+    description: string
 }
 
-// Crea un objeto de error estandarizado
-export function createErrorObject(status?: number, detail?: string): errorMessage {
+export function handleError(error: unknown): errorMessage {
+    if (axios.isAxiosError(error)) {
+        const status = error.response?.status || 500;
+        const errors = error.response?.data?.errors || [];
+        const errorMsg = error.response?.data?.message || error.message || 'Error desconocido';
+        const instance = error.config?.url || 'Instancia desconocida'; // Capture the URL or instance
+        return createErrorObject(status, errorMsg, instance, errors);
+    }
+
+    const errorMsg = error instanceof Error ? error.message : 'Error inesperado, por favor intente nuevamente.';
+    return createErrorObject(500, errorMsg, 'Instancia desconocida');
+}
+
+
+export function createErrorObject(status?: number, detail?: string, instance?: string, errors?: error[]): errorMessage {
     return {
         title: 'Error inesperado',
-        status: status ? status : 500,
-        detail: detail ? detail : 'Error inesperado, por favor intente nuevamente.',
-        instance: '',
-        errors: [],
+        status: status || 500,
+        detail: detail || 'Error inesperado, por favor intente nuevamente.',
+        instance: instance || 'Instancia desconocida',
+        errors: errors || [],
     };
 }

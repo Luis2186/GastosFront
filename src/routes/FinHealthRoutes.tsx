@@ -7,23 +7,27 @@ export const FinHealthRoutes = () => {
 
     return (
         <Routes>
-            <Route path="/Administration"
+            <Route
+                path="/Administration"
                 element={
                     <PrivateRoute
-                        element={<UserAdministration />}
                         roles={['Admin', 'Sys_Adm']}
                         pathErrorRedirect="/"
-                    />
+                    >
+                        <UserAdministration /> {/* Pasas el componente como children */}
+                    </PrivateRoute>
                 }
             />
 
-            <Route path="/Categories"
+            <Route
+                path="/Categories"
                 element={
                     <PrivateRoute
-                        element={<Categorie />}
                         roles={['Admin', 'Sys_Adm', 'Usuario']}
                         pathErrorRedirect="/"
-                    />
+                    >
+                        <Categorie /> {/* Pasas el componente como children */}
+                    </PrivateRoute>
                 }
             />
         </Routes>

@@ -1,4 +1,3 @@
-import { ToastContainer } from "react-toastify";
 import { SideBar } from "./menu/SideBar"
 import { Outlet } from 'react-router-dom';
 
@@ -16,17 +15,7 @@ export const FinHealth = () => {
                 <Outlet />
             </main>
 
-            <ToastContainer
-                position="bottom-left"
-                autoClose={3000} // Cierra automáticamente después de 3 segundos
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
+
         </div>
     )
 }

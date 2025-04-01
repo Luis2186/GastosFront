@@ -25,7 +25,7 @@ export const GroupAll1 = () => {
         const getGroups = async (idUser: string) => {
             // Simulamos una llamada al repositorio de grupos (deberías reemplazarlo con tu lógica)
             const groups: Group[] | errorMessage = await groupRepository.getAllByUser(idUser);
-            console.log(groups)
+
             if (groups && !isErrorMessage(groups)) {
                 // Define las columnas
                 const cols = [
@@ -35,7 +35,7 @@ export const GroupAll1 = () => {
                         name: 'Admin',
                         render: (row: any) => {
                             // Verifica si es administrador (adminUserId es igual al id del usuario)
-                            return row.Admin === "Si" ? (
+                            return row.admin === "Si" ? (
                                 <i className="fa-solid fa-circle-check fa-xl" style={{ color: '#16bd00' }}></i>
                             ) : (
                                 <i className="fa-solid fa-circle-xmark fa-xl" style={{ color: '#ff0000' }}></i>

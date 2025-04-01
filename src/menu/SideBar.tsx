@@ -4,6 +4,7 @@ import { SideBarItem } from "./SideBarItem"
 import { SideBarMenu } from "./SideBarMenu"
 import { ThemeToggle } from "./ThemeToggle";
 import { UserCard } from "../models/users/components/UserCard";
+import { userRepository } from "../models/users/api/userApi";
 
 
 
@@ -12,6 +13,7 @@ export const SideBar = () => {
 
     const { user } = useAuthStore();
     const [roles] = useState(user?.roles || []);
+    const { logout } = userRepository;
 
     return (
         <div className="flex flex-col h-screen">
@@ -106,7 +108,7 @@ export const SideBar = () => {
                 ></i>
             </SideBarItem> --> */}
 
-                        <SideBarItem title="Sign out" href="/SignIn" id="signOut">
+                        <SideBarItem title="Sign out" href="/SignIn" id="signOut" onClick={logout}>
                             <span className="w-11 flex justify-center align-middle">
                                 <i className="fa-solid fa-arrow-right-to-bracket fa-lg fa-rotate-180 self-center w-7 text-start"></i>
                             </span>

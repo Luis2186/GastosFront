@@ -1,6 +1,6 @@
 import { userRepository } from '../api/userApi';
 import useUserStore from '../store/useUserStore';
-import { createErrorObject, handleError } from '../../../utils/utils';
+import { handleError } from '../../../utils/utils';
 import { User } from '../../../domain/types/User';
 import { errorMessage } from '../../../types/input';
 import { isErrorMessage } from '../../../utils/typeGuards';
@@ -55,6 +55,7 @@ export const useUser = () => {
     const handleRemoveUser = async (userId: string) => {
         try {
             onLoading();
+            console.log(userId)
             await userRepository.delete(userId);
             onRemoveUser(userId)
         } catch (error) {

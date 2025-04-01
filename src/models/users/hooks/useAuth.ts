@@ -20,12 +20,15 @@ export const useAuth = () => {
             onChecking();
 
             // Llama a la API para hacer login
-            const response: LoginResult = await userRepository.login(email, password);
+            const response: LoginResult | errorMessage = await userRepository.login(email, password);
+
+            if (isErrorMessage(response)) return response;
 
             const usuario: User | errorMessage = await userRepository.getById(response.id);
 
             if (usuario && !isErrorMessage(usuario)) onLogin(usuario); // Guarda el usuario y el token en el estado global
 
+            return usuario;
         } catch (error) {
             console.error('Credenciales inválidas', error);
             return handleError(error)
@@ -50,9 +53,9 @@ export const useAuth = () => {
         try {
             onLoading()
 
-            const userMap = await userRepository.register(user);
+            const userMap: User | errorMessage = await userRepository.register(user);
 
-            if (userMap == null) return
+            if (userMap == null || isErrorMessage(userMap)) return userMap;
 
             onLogin(userMap);
 

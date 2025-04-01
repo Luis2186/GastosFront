@@ -5,6 +5,7 @@ import { GroupCreate } from "./GroupCreate";
 import { Route, Routes } from "react-router-dom";
 import { GroupJoin } from "./GroupJoin";
 import { GroupAll1 } from "./GroupAll1";
+import PrivateRoute from "../../../routes/PrivateRoute";
 
 export const GroupHome = () => {
 
@@ -45,23 +46,59 @@ export const GroupHome = () => {
                     {/* Rutas y componentes */}
 
                     <Routes>
-                        <Route path="join" element={
-                            <div className="col-start-2 col-span-2 flex h-auto justify-center">
-                                <GroupJoin />
-                            </div>
-                        } />
 
-                        <Route path="create" element={
-                            <div className="col-start-2 col-span-2 flex h-auto justify-center">
-                                <GroupCreate />
-                            </div>
-                        } />
+                        {/* <Route path="/" element={
+                        <PrivateRoute
+                            element={<FinHealth />} // Este es el layout que contiene las rutas anidadas
+                            roles={['Admin', 'Sys_Adm', 'Usuario']}
+                            pathErrorRedirect="/Login"
+                        />
+                    }> */}
 
-                        <Route path="view-all" element={
-                            <div className="col-span-4 flex h-auto justify-center">
-                                <GroupAll1 />
-                            </div>
-                        } />
+
+                        <Route
+                            path="join"
+                            element={
+                                <PrivateRoute
+                                    roles={['Admin', 'Sys_Adm', 'Usuario']}
+                                    pathErrorRedirect="/Login"
+                                >
+                                    <div className="col-start-2 col-span-2 flex h-auto justify-center">
+                                        <GroupJoin />
+                                    </div>
+                                </PrivateRoute>
+                            }
+                        />
+
+                        {/* Ruta protegida para crear */}
+                        <Route
+                            path="create"
+                            element={
+                                <PrivateRoute
+                                    roles={['Admin', 'Sys_Adm', 'Usuario']}
+                                    pathErrorRedirect="/Login"
+                                >
+                                    <div className="col-start-2 col-span-2 flex h-auto justify-center">
+                                        <GroupCreate />
+                                    </div>
+                                </PrivateRoute>
+                            }
+                        />
+
+                        {/* Ruta protegida para ver todos */}
+                        <Route
+                            path="view-all"
+                            element={
+                                <PrivateRoute
+                                    roles={['Admin', 'Sys_Adm', 'Usuario']}
+                                    pathErrorRedirect="/Login"
+                                >
+                                    <div className="col-span-4 flex h-auto justify-center">
+                                        <GroupAll1 />
+                                    </div>
+                                </PrivateRoute>
+                            }
+                        />
                     </Routes>
 
                     {/* Renderizado de componentes según el estado de activeComponent */}

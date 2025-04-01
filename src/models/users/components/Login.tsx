@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schemaLogin } from '../validation/userValidationSchema.ts';
 import { useNavigate } from 'react-router-dom';
+import { isErrorMessage } from '../../../utils/typeGuards.ts';
+import { toast } from 'react-toastify';
 
 interface IFormInput {
     email: string;
@@ -25,10 +27,18 @@ export const Login = () => {
     // Función que maneja el envío del formulario
     const onSubmit = async (data: IFormInput) => {
 
-        await handleLogin(data.email, data.password)
+        var response = await handleLogin(data.email, data.password)
+
         if (user) {
             navigate("/")
         }
+
+        if (isErrorMessage(response)) {
+            toast.error(response.errors[0].description)
+        } else {
+            navigate("/Home/view-all")
+        }
+
     };
 
     return (
@@ -46,8 +56,8 @@ export const Login = () => {
                         <input
                             type="email"
                             id="email"
-                            value="l.lopezperdomo.e@gmail.com"
-                            //value="juan@hotmail.com"
+                            //value="l.lopezperdomo.e@gmail.com"
+                            value="juan@hotmail.com"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-indigo-600 dark:border-gray-500 dark:placeholder-indigo-100 dark:text-white"
                             placeholder="nombre@compania.com"
                             {...register('email')}
@@ -64,8 +74,8 @@ export const Login = () => {
                             id="password"
                             placeholder="••••••••"
                             //autoComplete="current-password"
-                            value="Admin_123456!"
-                            //value="Tanko_123456"
+                            //value="Admin_123456!"
+                            value="Tanko_123456"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-indigo-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             {...register("password")}
                         />

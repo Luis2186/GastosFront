@@ -1,32 +1,38 @@
-import { handleError } from "../../../utils/utils";
+import { createErrorObject, handleError } from "../../../utils/utils";
 import axiosInstance from "../../../api/axiosConfig";
 import { User, UserRegister } from "../../../domain/types/User";
 import { LoginResult, mapUserRegisterToUserRegisterResult, mapUserResultToUser, mapUserToUserResult, UserResult } from "./types/userResult";
 import { IUserRepository } from "./interfaces/IUserRepository";
+import { errorMessage } from "../../../types/input";
+import { isErrorMessage } from "../../../utils/typeGuards";
 
 export const userRepository: IUserRepository = {
-    async register(user: UserRegister): Promise<User | null> {
+    async register(user: UserRegister): Promise<User | errorMessage> {
         try {
             const userMap = mapUserRegisterToUserRegisterResult(user);
 
-            if (userMap == null || userMap == undefined) return null;
+            if (userMap == null || userMap == undefined) return createErrorObject(400, "Error al mapear el usuario");
 
             const response = await axiosInstance.post(`/usuario/registrar`, userMap);
-            console.log(response);
+
             return response.data;
         } catch (error) {
-            handleError(error);
+            return handleError(error);
         }
     },
 
-    async login(email: string, password: string): Promise<LoginResult> {
+    async login(email: string, password: string): Promise<LoginResult | errorMessage> {
         try {
 
-            const response = await axiosInstance.post('usuario/login', { email, password });
+            const responseAxios = await axiosInstance.post('usuario/login', { email, password });
 
-            return response.data;
+            const response: LoginResult | errorMessage = responseAxios.data;
+
+            if (isErrorMessage(response)) return response;
+
+            return response;
         } catch (error) {
-            handleError(error);
+            return handleError(error);
         }
     },
 
@@ -51,7 +57,7 @@ export const userRepository: IUserRepository = {
     },
 
     // Leer todos los usuarios
-    async getAll(): Promise<User[]> {
+    async getAll(): Promise<User[] | errorMessage> {
         try {
             const response = await axiosInstance.get(`/usuario/paginados`);
 
@@ -60,24 +66,25 @@ export const userRepository: IUserRepository = {
 
             return usersMaps;
         } catch (error) {
-            handleError(error);
+            return handleError(error);
         }
     },
 
-    async getById(id: string): Promise<User | null> {
+    async getById(id: string): Promise<User | errorMessage> {
         try {
 
             const response = await axiosInstance.get(`usuario/obtener/${id}`);
             const userResult: UserResult = response.data;
+
             const userMap = mapUserResultToUser(userResult);
 
             return userMap;
         } catch (error) {
-            handleError(error);
+            return handleError(error);
         }
     },
 
-    async update(idUser: string, updatedUser: User) {
+    async update(idUser: string, updatedUser: User): Promise<User | errorMessage> {
         try {
 
             const userMapUpdate = mapUserToUserResult(updatedUser);
@@ -88,7 +95,7 @@ export const userRepository: IUserRepository = {
 
             return user;
         } catch (error) {
-            handleError(error);
+            return handleError(error);
         }
     },
 
@@ -143,16 +150,16 @@ export const userRepository: IUserRepository = {
         try {
             if (!idUsuario || (!idRol && !nombreRol)) return;
 
-            const response = await axiosInstance.delete(`/usuario/eliminarRol/${idUsuario}/${"idRol"}/${nombreRol}`);
+            const response = await axiosInstance.delete(`/usuario/eliminarRol/${idUsuario}/${idRol}/${nombreRol}`);
             console.log(response);
 
             return response.data;
 
         } catch (error) {
-            handleError(error);
+            return handleError(error);
         }
     },
-    create: function (entity: User): Promise<User | null> {
+    create: function (entity: User): Promise<User | errorMessage> {
         throw new Error("Function not implemented.");
     }
 }
