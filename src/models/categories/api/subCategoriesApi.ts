@@ -42,8 +42,8 @@ export const subCategoriesRepository: ISubCategoriesRepository = {
     update: async function (id: number | string, entity: SubCategorie): Promise<SubCategorie | errorMessage> {
         try {
             const subCatResult = mapSubCategorieToSubCategorieResult(entity);
-
-            const response = await axiosInstance.put(`/${endpoint}/actualizar/${id}`, subCatResult);
+            console.log(subCatResult)
+            const response = await axiosInstance.put(`${endpoint}/actualizar/${id}`, subCatResult);
             const result: SubCategorieResult = response.data;
 
             const subCategorie = mapSubCategorieResultToSubCategorie(result);
@@ -56,7 +56,8 @@ export const subCategoriesRepository: ISubCategoriesRepository = {
         try {
             const subCatResult = mapSubCategorieToSubCategorieResult(entity);
 
-            const response = await axiosInstance.put(`/${endpoint}/crear`, subCatResult);
+            console.log(subCatResult)
+            const response = await axiosInstance.post(`${endpoint}/crear`, subCatResult);
             const result: SubCategorieResult = response.data;
             const subCategorie = mapSubCategorieResultToSubCategorie(result);
 
@@ -67,7 +68,7 @@ export const subCategoriesRepository: ISubCategoriesRepository = {
     },
     delete: async function (id: number | string): Promise<boolean | errorMessage> {
         try {
-            const response = await axiosInstance.delete(`/${endpoint}/eliminar/${id}`);
+            const response = await axiosInstance.delete(`${endpoint}/eliminar/${id}`);
             return response.data;
         } catch (error) {
             return handleError(error);

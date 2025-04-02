@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Modal } from './Modal';  // Asegúrate de importar el Modal genérico
+import { Modal } from '../../../components/Modal';  // Asegúrate de importar el Modal genérico
 import { InputForm } from '../../../components/InputForm';
 import { User } from '../../../domain/types/User';
 

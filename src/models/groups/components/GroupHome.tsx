@@ -1,11 +1,10 @@
 import { ButtonGroup } from "../../../components/ButtonGroup";
 import { ButtonGroups } from "../../../components/ButtonsGroups";
-import { GroupAll } from "./GroupAll";
 import { GroupCreate } from "./GroupCreate";
 import { Route, Routes } from "react-router-dom";
 import { GroupJoin } from "./GroupJoin";
-import { GroupAll1 } from "./GroupAll1";
 import PrivateRoute from "../../../routes/PrivateRoute";
+import { GroupAll } from "./GroupAll";
 
 export const GroupHome = () => {
 
@@ -94,7 +93,7 @@ export const GroupHome = () => {
                                     pathErrorRedirect="/Login"
                                 >
                                     <div className="col-span-4 flex h-auto justify-center">
-                                        <GroupAll1 />
+                                        <GroupAll />
                                     </div>
                                 </PrivateRoute>
                             }

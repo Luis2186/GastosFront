@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { Modal } from './Modal.tsx';  // Asegúrate de importar el Modal genérico
+import { Modal } from '../../../components/Modal.tsx';  // Asegúrate de importar el Modal genérico
 import { RolItem } from './RolItem.tsx';
 import useUserStore from '../store/useUserStore.ts';
 import { useUser } from '../hooks/useUser.ts';

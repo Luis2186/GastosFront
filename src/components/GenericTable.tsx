@@ -1,24 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, JSX, useEffect } from 'react';
 
-interface TableProps {
-    columns: string[]; // Las columnas se pasan como un array de nombres
-    data: any[]; // Los datos son un array de objetos con valores correspondientes a cada columna
-    onActionClick?: (action: string, row: any) => void; // Callback para las acciones (por ejemplo, editar, eliminar)
-    actionButtons?: string[]; // Un array de las acciones que deseas habilitar (editar, eliminar, etc.)
+interface Column {
+    name: string; // El nombre de la columna
+    render?: (row: any) => JSX.Element | string; // Renderizado personalizado para cada celda
+    headerAction?: JSX.Element; // Icono o acción específica en el encabezado de la columna
 }
 
-export const GenericTable: React.FC<TableProps> = ({ columns, data, onActionClick, actionButtons }) => {
-    const [searchTerm, setSearchTerm] = useState('');
+interface TableProps {
+    columns: Column[]; // Cambiar para que cada columna pueda ser un objeto con configuración personalizada
+    data: any[]; // Los datos de la tabla
+    onActionClick?: (action: string, row: any) => void; // Callback para acciones
+    actionButtons?: string[]; // Botones de acción global
+    itemsPerPage?: number; // Número de elementos por página (opcional, por defecto 10)
+    onSelectedRow?: (row: any) => void;
+}
 
-    // Filtramos los datos en función del término de búsqueda
-    const filteredData = data.filter((row) =>
-        columns.some((col) => row[col]?.toString().toLowerCase().includes(searchTerm.toLowerCase()))
+const normalizeString = (str: string) => {
+    return str.replace(/\s+/g, '').toLowerCase();  // Eliminar espacios y pasar a minúsculas
+};
+
+export const GenericTable: React.FC<TableProps> = ({ columns, data, onActionClick, actionButtons, itemsPerPage = 10, onSelectedRow }) => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1); // Página actual
+
+    // Normalizamos las claves de todos los objetos de `data` a minúsculas
+    const normalizedData: any[] = data?.map((row) =>
+        Object.fromEntries(
+            Object.entries(row).map(([key, value]) => [normalizeString(key), value])
+        )
     );
+
+    // Normalizamos los nombres de las columnas
+    const normalizedColumns = columns.map(col => ({
+        ...col,
+        normalized: normalizeString(col.name)  // Normalizamos el nombre de cada columna
+    }));
+
+    // Filtrar los datos en función del término de búsqueda
+    const filteredData = useMemo(() => {
+        return normalizedData?.filter((row) => {
+            return normalizedColumns.some((col) =>
+                row[col.normalized]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        });
+    }, [data, columns, searchTerm]);
+
+    // Calcular los índices de los datos a mostrar en la página actual
+    const totalItems = filteredData?.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentPageData = filteredData?.slice(startIndex, endIndex);
+
+    // Cambiar de página
+    const handlePageChange = (page: number) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
+    const handleRowClick = (row: any) => {
+        if (onSelectedRow) {
+            onSelectedRow(row); // Pass the selected row to the callback
+        }
+    };
 
     return (
         <>
-            <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-gradient rounded-t-2xl" >
-                {/* Botón de acción */}
+            {/* Buscador */}
+            <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-gradient rounded-t-2xl">
                 <div className="px-5">
                     <button
                         onClick={() => { }}
@@ -44,7 +94,6 @@ export const GenericTable: React.FC<TableProps> = ({ columns, data, onActionClic
                     </button>
                 </div>
 
-                {/* Campo de búsqueda */}
                 <div className="relative px-5">
                     <input
                         type="text"
@@ -57,31 +106,42 @@ export const GenericTable: React.FC<TableProps> = ({ columns, data, onActionClic
                 </div>
             </div>
 
+            {/* Tabla */}
             <table className="w-full text-sm text-left rtl:text-right text-light_text dark:text-dark_text">
-                <thead className="text-xs text-light_text uppercase  bg-gradient-to-b from-[var(--color-primary-200)] to-[var(--color-primary-300)] dark:bg-gradient-to-br dark:from-primary-800 dark:to-primary-950 dark:text-dark_text rounded-full">
+                <thead className="text-xs text-light_text uppercase bg-gradient-to-b from-[var(--color-primary-200)] to-[var(--color-primary-300)] dark:bg-gradient-to-br dark:from-primary-800 dark:to-primary-950 dark:text-dark_text rounded-full">
                     <tr>
-                        {columns.map((col, index) => (
+                        {normalizedColumns.map((col, index) => (
                             <th key={index} scope="col" className="px-6 py-3">
-                                {col}
+                                <div className="flex items-center justify-between">
+                                    {col.name}
+                                    {col.headerAction && (
+                                        <span className="ml-2 cursor-pointer">
+                                            {col.headerAction}
+                                        </span>
+                                    )}
+                                </div>
                             </th>
                         ))}
-                        {actionButtons && <th className="px-6 py-3">Acciones</th>} {/* Si hay botones de acción, agregamos una columna extra */}
+                        {actionButtons && <th className="px-6 py-3">Acciones</th>}
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredData.length === 0 ? (
+                    {currentPageData?.length === 0 ? (
                         <tr>
-                            <td colSpan={columns.length + (actionButtons ? 1 : 0)} className="text-center py-4 text-gray-500">
+                            <td colSpan={normalizedColumns.length + (actionButtons ? 1 : 0)} className="text-center py-4 text-gray-500">
                                 No hay datos disponibles.
                             </td>
                         </tr>
                     ) : (
-                        filteredData.map((row, rowIndex) => (
-                            <tr key={rowIndex} className="bg-primary-50 border-b dark:bg-primary-950 dark:border-primary-700 hover:bg-gray-50 dark:hover:bg-primary-700 text-light_text dark:text-dark_text">
-                                {columns.map((col, colIndex) => (
-                                    <td key={colIndex} className="px-6 py-4">{row[col]}</td>
+                        currentPageData?.map((row, rowIndex) => (
+                            <tr key={rowIndex}
+                                onClick={() => onSelectedRow?.(row)}
+                                className="bg-primary-50 border-b-2 border-primary-400 dark:bg-primary-950 dark:border-primary-700 hover:bg-primary-200 dark:hover:bg-primary-700 text-color dark:text-dark_text">
+                                {normalizedColumns.map((col, colIndex) => (
+                                    <td key={colIndex} className="px-6 py-4">
+                                        {col.render ? col.render(row) : row[col.normalized]}
+                                    </td>
                                 ))}
-
                                 {actionButtons && (
                                     <td className="px-2 py-4 flex space-x-2">
                                         {actionButtons.includes("edit") && (
@@ -107,6 +167,29 @@ export const GenericTable: React.FC<TableProps> = ({ columns, data, onActionClic
                     )}
                 </tbody>
             </table>
+
+            {/* Paginación */}
+            {
+                totalPages > 1 &&
+
+                <div className="flex justify-center items-center py-4 bg-gradient rounded-b-2xl text-color">
+                    <button
+                        className="px-4 py-2 mx-1 bg-primary-50 dark:bg-primary-700 rounded-xl hover:bg-primary-300 dark:hover:bg-primary-800"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    >
+                        Anterior
+                    </button>
+                    <span className="px-4">{`Página ${currentPage} de ${totalPages}`}</span>
+                    <button
+                        className="px-4 py-2 mx-1 bg-primary-50 rounded-xl dark:bg-primary-700 hover:bg-primary-300 dark:hover:bg-primary-800"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                    >
+                        Siguiente
+                    </button>
+                </div>
+            }
         </>
     );
 };

@@ -9,10 +9,11 @@ interface ModalProps {
 }
 
 export const Modal: React.FC<ModalProps> = ({ title, isOpen, onClose, onSubmit, children }) => {
+
     return (
         <>
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50">
+                <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/30 bg-opacity-50">
                     <div className="relative bg-white dark:bg-gradient-to-br from-primary-800 to-primary-950 rounded-lg shadow-lg max-w-lg w-full p-6 text-light_text">
                         <div className="flex justify-between items-center border-b border-light_text_menu pb-4">
                             <h3 className="text-xl font-semibold text-primary-700 dark:text-dark_text">{title}</h3>

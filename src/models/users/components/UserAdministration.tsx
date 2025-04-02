@@ -7,7 +7,7 @@ import '../styles/DataAdminStyles.css'
 import { UserModal } from './UserModal.tsx';
 import { RolesModal } from './RolesModal.tsx';
 import { User } from '../../../domain/types/User.ts';
-import { GenericTable1 } from '../../../components/GenericTable1.tsx';
+import { GenericTable } from '../../../components/GenericTable.tsx';
 
 
 export const UserAdministration = () => {
@@ -119,7 +119,7 @@ export const UserAdministration = () => {
         <div className='container mx-auto py-20' >
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg " >
 
-                <GenericTable1 data={data} columns={columns} />
+                <GenericTable data={data} columns={columns} />
 
                 {isModalUserOpen && selectedUser &&
                     <UserModal
